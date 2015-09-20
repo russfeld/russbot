@@ -14,12 +14,6 @@ import russbot.Session;
 public class FortyTwoPlugin implements Plugin {
 
     @Override
-    public void messagePosted(String message, String channel) {
-        Session.getInstance().sendMessage("“The Answer to the Great Question... Of Life, the Universe and Everything... Is... Forty-two,' said Deep Thought, with infinite majesty and calm.” \n" +
-"― Douglas Adams, The Hitchhiker's Guide to the Galaxy", channel);
-    }
-
-    @Override
     public String getRegexPattern() {
         return "(life[ ,]+the universe[ ,]+and everything)|(\\b42\\b)|(\\b[Ff]orty two\\b)|(\\b[Ff]orty-two\\b)";
     }
@@ -28,6 +22,11 @@ public class FortyTwoPlugin implements Plugin {
     public String[] getChannels() {
         String[] channels = {"test"};
         return channels;
+    }
+    
+    @Override
+    public void messagePosted(String message, String channel) {
+        Session.getInstance().sendMessage("“The Answer to the Great Question... Of Life, the Universe and Everything... Is... Forty-two,' said Deep Thought, with infinite majesty and calm.” \n― Douglas Adams, The Hitchhiker's Guide to the Galaxy", channel);
     }
     
 }

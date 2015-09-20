@@ -102,34 +102,7 @@ public final class Session {
                         pc.plugin.messagePosted(message, channel);
                     }
                 }
-                
             }
-   
-                /*
-                //let's send a message
-                SlackMessageHandle handle = session.sendMessage(event.getChannel(),
-                                    event.getMessageContent(), null);
-                try
-                {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                //2 secs later, let's update the message (I can only update my own messages)
-                session.updateMessage(handle.getSlackReply().getTimestamp(),event.getChannel(),
-                                      event.getMessageContent()+" UPDATED");
-                try
-                {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-                //2 secs later, let's now delete the message (I can only delete my own messages)
-                session.deleteMessage(handle.getSlackReply().getTimestamp(),event.getChannel());
-                */
-        }
-        
+        } 
     }
 }

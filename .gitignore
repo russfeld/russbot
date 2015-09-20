@@ -2,3 +2,5 @@
 russbot.cfg
 .gradle/*
 build/*
+/.nb-gradle/
+data/*

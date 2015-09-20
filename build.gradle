@@ -27,6 +27,7 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.4'
     compile 'com.google.guava:guava:18.0'
     compile 'com.ullink.slack:simpleslackapi:0.4.6'
+    compile 'com.rometools:rome-fetcher:1.5.1'
 }
 
 uploadArchives {
