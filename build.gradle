@@ -1,0 +1,38 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "russbot.Russbot"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = '0.01a'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'russbot',
+                   'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'org.glassfish.tyrus.bundles:tyrus-standalone-client:1.8.3'
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+    compile 'org.slf4j:slf4j-simple:1.7.7'
+    compile 'org.apache.httpcomponents:httpclient:4.4'
+    compile 'com.google.guava:guava:18.0'
+    compile 'com.ullink.slack:simpleslackapi:0.4.6'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'dist'
+       }
+    }
+}

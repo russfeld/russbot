@@ -68,6 +68,7 @@ public final class Session {
     
     public void addPlugin(Plugin p){
         plugins.add(new PluginContainer(p));
+        Logger.getLogger(Session.class.getName()).log(Level.INFO, "Plugin " + p.getClass().getCanonicalName() + " registered");
     }
     
     public void sendMessage(String message, String channel){
