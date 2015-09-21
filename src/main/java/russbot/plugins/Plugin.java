@@ -14,5 +14,7 @@ import java.util.regex.Pattern;
 public interface Plugin {
     public abstract String getRegexPattern();
     public abstract String[] getChannels();
+    public abstract String getInfo();
+    public abstract String[] getCommands();
     public abstract void messagePosted(String message, String channel);
 }

@@ -29,6 +29,18 @@ public class RandomDice implements Plugin {
         String[] channels = {"test"};
         return channels;
     }
+    
+    @Override
+    public String getInfo(){
+        return "for rolling random integers like dice";
+    }
+    
+    @Override
+    public String[] getCommands(){
+        String[] commands = {
+            "!<int1>d<int2> - Roll int1 dice with int2 sides each"};
+        return commands;
+    }
 
     @Override
     public void messagePosted(String message, String channel) {

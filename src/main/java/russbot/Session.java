@@ -96,10 +96,25 @@ public final class Session {
         public void onEvent(SlackMessagePosted event, SlackSession ss) {
             String channel = event.getChannel().getName();
             String message = event.getMessageContent();
-            for(PluginContainer pc : session.plugins){
-                if(pc.channels.contains(channel)){
-                    if(pc.pattern.matcher(message).matches()){
-                        pc.plugin.messagePosted(message, channel);
+            if(message.equals("!help")){
+                String output = "*russbot knows these basic commands*:\n";
+                output +="\t!help - print this help information\n";
+                //more commands here
+                output +="\n*russbot uses these plugins*:\n";
+                for(PluginContainer pc : session.plugins){
+                    output +="\t*" + pc.plugin.getClass().getSimpleName() + "*: " + pc.plugin.getInfo() + "\n";
+                    for(String cmd : pc.plugin.getCommands()){
+                        output +="\t\t" + cmd + "\n";
+                    }
+                }
+                output +="\nvisit https://github.com/russfeld/russbot for more";
+                Session.getInstance().sendMessage(output, channel);
+            }else{
+                for(PluginContainer pc : session.plugins){
+                    if(pc.channels.contains(channel)){
+                        if(pc.pattern.matcher(message).matches()){
+                            pc.plugin.messagePosted(message, channel);
+                        }
                     }
                 }
             }

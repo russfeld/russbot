@@ -96,7 +96,7 @@ public class Russbot {
         File[] listOfFiles = file.listFiles();
         for(int i = 0; i < listOfFiles.length; i++){
             try {
-                if (listOfFiles[i].isFile()) {
+                if (listOfFiles[i].isFile() && !listOfFiles[i].getName().contains("$")) {
                     String className = listOfFiles[i].getName().replace(".class", "");
                     if(!className.equals("Plugin")){
                         Class clas = cl.loadClass("russbot.plugins." + className);
