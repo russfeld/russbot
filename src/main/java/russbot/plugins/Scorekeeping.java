@@ -64,7 +64,7 @@ public class Scorekeeping implements Plugin, Runnable {
 
     @Override
     public String getRegexPattern() {
-        return "((^([\\w]+)((\\+\\+)|(--))\\z)|(^!score[s]?\\z))";
+        return "((^([\\w]{2,})((\\+\\+)|(--))\\z)|(^!score[s]?\\z))";
     }
 
     @Override
@@ -139,14 +139,18 @@ public class Scorekeeping implements Plugin, Runnable {
                 data.put(key, 0);
             }
             String change = "";
-            if(message.charAt(message.length() - 1) == '+'){
-                data.put(key, data.get(key) + 1);
-                change = "gained";
+            if(key.toLowerCase().equals("ku") && message.charAt(message.length() - 1) == '+') { //TODO remove .toLowerCase() after case checking is implemented
+                Session.getInstance().sendMessage("KU may only lose points.", channel);
             }else{
-                data.put(key, data.get(key) - 1);
-                change = "lost";
+                if(message.charAt(message.length() - 1) == '+'){
+                    data.put(key, data.get(key) + 1);
+                    change = "gained";
+                }else{
+                    data.put(key, data.get(key) - 1);
+                    change = "lost";
+                }
+                Session.getInstance().sendMessage(key + " has " + change + " a point for a total of " + data.get(key) + " points", channel);
             }
-            Session.getInstance().sendMessage(key + " has " + change + " a point for a total of " + data.get(key) + " points", channel);
             try {
                 oos.writeObject(data);
                 oos.flush();
