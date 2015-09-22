@@ -148,7 +148,7 @@ public class Scorekeeping implements Plugin, Runnable {
                 data.put(key, data.get(key) - 1);
                 change = "lost";
             }
-            if(key.toLowerCase().equals("ku") { //TODO remove .toLowerCase() after case checking is implemented
+            if(key.toLowerCase().equals("ku") && message.charAt(message.length() - 1) == '+') { //TODO remove .toLowerCase() after case checking is implemented
                 Session.getInstance().sendMessage("KU may only lose points.");
             }else{
             Session.getInstance().sendMessage(key + " has " + change + " a point for a total of " + data.get(key) + " points", channel);
