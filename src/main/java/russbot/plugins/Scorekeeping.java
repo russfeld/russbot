@@ -64,7 +64,7 @@ public class Scorekeeping implements Plugin, Runnable {
 
     @Override
     public String getRegexPattern() {
-        return "((^([\\w]{2,})((\\+\\+)|(--))\\z)|(^!score[s]?\\z))";
+        return "((^@??([\\w]{2,})((\\+\\+)|(--))\\z)|(^!score[s]?\\z))";
     }
 
     @Override
