@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,47 +20,17 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import russbot.Session;
+import russbot.Storage;
 
 /**
  *
  * @author russfeld
  */
-public class Scorekeeping implements Plugin, Runnable {
-    private HashMap<String, Integer> data;
-    private ObjectOutputStream oos;
+public class Scorekeeping implements Plugin{
+    private AbstractMap<String, Integer> data;
     
     public Scorekeeping(){
-        File file = new File(System.getProperty("user.dir") + File.separator + "data" + File.separator + "scorekeeping.dat");
-        if(file.exists()){
-            Logger.getLogger(Scorekeeping.class.getName()).log(Level.INFO, "Data file found!");
-            ObjectInputStream ois = null;
-            try {
-                ois = new ObjectInputStream(new FileInputStream(file));
-                data = (HashMap<String, Integer>)ois.readObject();
-            } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(Scorekeeping.class.getName()).log(Level.SEVERE, null, ex);
-                data = new HashMap();
-            } finally {
-                try {
-                    ois.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(Scorekeeping.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }else{
-            Logger.getLogger(Scorekeeping.class.getName()).log(Level.INFO, "Data file not found, creating new file");
-            File folder = new File(System.getProperty("user.dir") + File.separator + "data");
-            if(!folder.exists()){
-                folder.mkdir();
-            }
-            data = new HashMap();
-        }
-        try {
-            oos = new ObjectOutputStream(new FileOutputStream(file));
-        } catch (IOException ex) {
-            Logger.getLogger(Scorekeeping.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Runtime.getRuntime().addShutdownHook(new Thread(this));
+        data = Storage.getMap("scorekeeping");
     }
 
     @Override
@@ -151,24 +122,6 @@ public class Scorekeeping implements Plugin, Runnable {
                 }
                 Session.getInstance().sendMessage(key + " has " + change + " a point for a total of " + data.get(key) + " points", channel);
             }
-            try {
-                oos.writeObject(data);
-                oos.flush();
-            } catch (IOException ex) {
-                Logger.getLogger(Scorekeeping.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
-    @Override
-    public void run() {
-        try {
-            oos.writeObject(data);
-            oos.flush();
-            oos.close();
-            Logger.getLogger(Scorekeeping.class.getName()).log(Level.INFO, "Writing data file at shutdown");
-        } catch (IOException ex) {
-            Logger.getLogger(Scorekeeping.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

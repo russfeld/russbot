@@ -29,7 +29,7 @@ dependencies {
     compile 'com.ullink.slack:simpleslackapi:0.4.6'
     compile 'com.rometools:rome-fetcher:1.5.1'
     compile 'org.mnode.ical4j:ical4j:2.0-beta1'
-
+    compile 'com.h2database:h2:1.4.189'
 }
 
 uploadArchives {
