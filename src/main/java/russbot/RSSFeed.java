@@ -20,6 +20,7 @@ import com.rometools.rome.io.FeedException;
 import com.ullink.slack.simpleslackapi.SlackAttachment;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -124,7 +125,7 @@ public class RSSFeed implements Runnable{
             }
             entries.clear();
             entries.addAll(feed.getEntries());
-            entries.sort(new EntryComparator());
+            Collections.sort(entries, new EntryComparator());
         }
         
         /**
