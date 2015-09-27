@@ -124,13 +124,7 @@ public class RSSFeed implements Runnable{
             }
             entries.clear();
             entries.addAll(feed.getEntries());
-            entries.sort(new Comparator<SyndEntry>(){
-                @Override
-                public int compare(SyndEntry o1, SyndEntry o2) {
-                    return o1.getPublishedDate().compareTo(o2.getPublishedDate());
-                }
-                
-            });
+            entries.sort(new EntryComparator());
         }
         
         /**
@@ -150,5 +144,19 @@ public class RSSFeed implements Runnable{
                 //Feed has not changed since last poll
             }
         }
+    }
+    
+    private class EntryComparator implements Comparator<SyndEntry>{
+
+        @Override
+        public int compare(SyndEntry o1, SyndEntry o2) {
+            if(o1.getPublishedDate() != null){
+                return o1.getPublishedDate().compareTo(o2.getPublishedDate());
+            }else if (o1.getUpdatedDate() != null){
+                return o1.getPublishedDate().compareTo(o2.getPublishedDate());
+            }
+            return 0;
+        }
+        
     }
 }
