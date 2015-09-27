@@ -79,9 +79,8 @@ public class DefaultRSS implements Plugin, RSSPlugin{
     @Override
     public void newEntry(SyndEntry entry, String key) {
         String output = "New entry from " + key + ":\n";
-        output += RSSFeed.formatEntry(entry);
         for(String channel : channels){
-            Session.getInstance().sendMessage(output, channel);
+            Session.getInstance().sendMessage(output, channel, RSSFeed.formatEntry(entry));
         }
     }
     

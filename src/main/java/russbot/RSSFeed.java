@@ -67,11 +67,13 @@ public class RSSFeed implements Runnable{
     
     @Override
     public void run() {
-        try {
-            fetcher.retrieveFeed(feedURL);
-            Thread.sleep(300000);
-        } catch (IllegalArgumentException | IOException | FeedException | FetcherException | InterruptedException ex) {
-            Logger.getLogger(RSSFeed.class.getName()).log(Level.SEVERE, null, ex);
+        while(true){
+            try {
+                fetcher.retrieveFeed(feedURL);
+                Thread.sleep(10000);
+            } catch (IllegalArgumentException | IOException | FeedException | FetcherException | InterruptedException ex) {
+                Logger.getLogger(RSSFeed.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
