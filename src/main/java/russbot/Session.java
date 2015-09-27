@@ -5,6 +5,7 @@
  */
 package russbot;
 
+import com.ullink.slack.simpleslackapi.SlackAttachment;
 import com.ullink.slack.simpleslackapi.SlackMessageHandle;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
@@ -75,6 +76,10 @@ public final class Session {
         session.slacksession.sendMessage(session.slacksession.findChannelByName(channel), message, null);
     }
     
+    public void sendMessage(String message, String channel, SlackAttachment attachment){
+        session.slacksession.sendMessage(session.slacksession.findChannelByName(channel), message, attachment);
+    }
+    
     private class PluginContainer{
         public Pattern pattern;
         public HashSet channels;
@@ -96,9 +101,9 @@ public final class Session {
         public void onEvent(SlackMessagePosted event, SlackSession ss) {
             String channel = event.getChannel().getName();
             String message = event.getMessageContent();
-            if(message.equals("!help")){
+            if(message.equals("!help") || message.equals("!commands") || message.equals("!about")){
                 String output = "*russbot knows these basic commands*:\n";
-                output +="\t!help - print this help information\n";
+                output +="\t!help | !commands | !about - print this help information\n";
                 //more commands here
                 output +="\n*russbot uses these plugins*:\n";
                 for(PluginContainer pc : session.plugins){
