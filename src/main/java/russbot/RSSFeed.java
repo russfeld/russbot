@@ -137,7 +137,7 @@ public class RSSFeed implements Runnable{
             if (FetcherEvent.EVENT_TYPE_FEED_POLLED.equals(eventType)) {
                 //Feed is polled but hasn't responded yet
             } else if (FetcherEvent.EVENT_TYPE_FEED_RETRIEVED.equals(eventType)) {
-                Logger.getLogger(RSSFeed.class.getName()).log(Level.INFO, "Feed Retrieved. URL = " + event.getUrlString());
+                //Logger.getLogger(RSSFeed.class.getName()).log(Level.INFO, "Feed Retrieved. URL = " + event.getUrlString());
                 feed = event.getFeed();
                 feedUpdated();
                 plugin.feedUpdated(key);
