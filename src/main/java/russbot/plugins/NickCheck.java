@@ -88,7 +88,7 @@ public class NickCheck implements Plugin {
                     hasHitUpdate = true;
                     //write out that nick told his joke
                     System.out.println("Nick told his joke for the day!");
-                    Session.getInstance().sendMessage("Nick has told his dad joke for the day.", "random");
+                    Session.getInstance().sendMessage("@nickboen has told his dad joke for the day: http://hasnicktoldhisdadjoketoday.com/", "random");
                     //sleep until about next reset time
                     waitUntilMidnight();
                     hasHitUpdate = false;
