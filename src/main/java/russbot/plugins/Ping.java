@@ -15,7 +15,7 @@ public class Ping implements Plugin {
 
     @Override
     public String getRegexPattern() {
-        return "[Pp]ing";
+        return "![Pp]ing";
     }
 
     @Override
@@ -31,7 +31,10 @@ public class Ping implements Plugin {
 
     @Override
     public String[] getCommands(){
-        return new String[0];
+        String[] commands = {
+            "!ping - send a ping to russbot"
+        };
+        return commands;
     }
 
     @Override

@@ -12,10 +12,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.AbstractMap;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -111,7 +113,7 @@ public class Scorekeeping implements Plugin{
             }
             String change = "";
             String[] loseOnly = {"ku", "printers", "printer"};
-            if(loseOnly.contains(key.toLowerCase()) && message.charAt(message.length() - 1) == '+') { //TODO remove .toLowerCase() after case checking is implemented
+            if(Arrays.asList(loseOnly).contains(key.toLowerCase()) && message.charAt(message.length() - 1) == '+') { //TODO remove .toLowerCase() after case checking is implemented
                 Session.getInstance().sendMessage(key + " may only lose points.", channel);
             }else{
                 if(message.charAt(message.length() - 1) == '+'){
