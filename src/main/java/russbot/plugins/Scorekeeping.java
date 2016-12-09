@@ -28,7 +28,7 @@ import russbot.Storage;
  */
 public class Scorekeeping implements Plugin{
     private AbstractMap<String, Integer> data;
-    
+
     public Scorekeeping(){
         data = Storage.getMap("scorekeeping");
     }
@@ -43,17 +43,17 @@ public class Scorekeeping implements Plugin{
         String[] channels = {"test"};
         return channels;
     }
-    
+
     @Override
     public String getInfo(){
         return "for keeping score at home";
     }
-    
+
     @Override
     public String[] getCommands(){
         String[] commands = {
-            "<thing>++ - add 1 point to thing's score", 
-            "<thing>-- - subtract 1 point from things's score", 
+            "<thing>++ - add 1 point to thing's score",
+            "<thing>-- - subtract 1 point from things's score",
             "!score | !scores - report the current scores"};
         return commands;
     }
@@ -110,8 +110,9 @@ public class Scorekeeping implements Plugin{
                 data.put(key, 0);
             }
             String change = "";
-            if(key.toLowerCase().equals("ku") && message.charAt(message.length() - 1) == '+') { //TODO remove .toLowerCase() after case checking is implemented
-                Session.getInstance().sendMessage("KU may only lose points.", channel);
+            String[] loseOnly = {"ku", "printers", "printer"};
+            if(loseOnly.contains(key.toLowerCase()) && message.charAt(message.length() - 1) == '+') { //TODO remove .toLowerCase() after case checking is implemented
+                Session.getInstance().sendMessage(key + " may only lose points.", channel);
             }else{
                 if(message.charAt(message.length() - 1) == '+'){
                     data.put(key, data.get(key) + 1);
@@ -124,16 +125,16 @@ public class Scorekeeping implements Plugin{
             }
         }
     }
-    
+
     private class StringInt implements Comparable{
         String s;
         int i;
-        
+
         public StringInt(String ss, int ii){
             s = ss;
             i = ii;
         }
-        
+
         @Override
         public int compareTo(Object input){
             if(input instanceof StringInt){
@@ -144,5 +145,5 @@ public class Scorekeeping implements Plugin{
             }
         }
     }
-    
+
 }

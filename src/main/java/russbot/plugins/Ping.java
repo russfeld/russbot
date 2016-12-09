@@ -1,0 +1,42 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package russbot.plugins;
+
+import russbot.Session;
+
+/**
+ *
+ * @author at0dd
+ */
+public class Ping implements Plugin {
+
+    @Override
+    public String getRegexPattern() {
+        return "[Pp]ing";
+    }
+
+    @Override
+    public String[] getChannels() {
+        String[] channels = {"test"};
+        return channels;
+    }
+
+    @Override
+    public String getInfo(){
+        return "Ping Pong";
+    }
+
+    @Override
+    public String[] getCommands(){
+        return new String[0];
+    }
+
+    @Override
+    public void messagePosted(String message, String channel) {
+        Session.getInstance().sendMessage("Pong!", channel);
+    }
+
+}
