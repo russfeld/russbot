@@ -15,7 +15,7 @@ public class Ping implements Plugin {
 
     @Override
     public String getRegexPattern() {
-        return "[Pp]ing";
+        return "![Pp]ing";
     }
 
     @Override
