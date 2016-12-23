@@ -31,11 +31,11 @@ public final class Session {
     private static Session session;
     private SlackSession slacksession;
     private List<PluginContainer> plugins;
-    
+
     private Session(){
-        
+
     }
-    
+
     public static Session getInstance(){
         if(session == null){
             session = new Session();
@@ -56,7 +56,7 @@ public final class Session {
         }
         return session;
     }
-    
+
     public void connect(){
         try {
             session.slacksession.addMessagePostedListener(new MessagePostedListener());
@@ -66,20 +66,20 @@ public final class Session {
             System.exit(3);
         }
     }
-    
+
     public void addPlugin(Plugin p){
         plugins.add(new PluginContainer(p));
         Logger.getLogger(Session.class.getName()).log(Level.INFO, "Plugin " + p.getClass().getCanonicalName() + " registered");
     }
-    
+
     public void sendMessage(String message, String channel){
         session.slacksession.sendMessage(session.slacksession.findChannelByName(channel), message, null);
     }
-    
+
     public void sendMessage(String message, String channel, SlackAttachment attachment){
         session.slacksession.sendMessage(session.slacksession.findChannelByName(channel), message, attachment);
     }
-    
+
     private class PluginContainer{
         public Pattern pattern;
         public HashSet channels;
@@ -94,7 +94,7 @@ public final class Session {
             plugin = p;
         }
     }
-    
+
     private class MessagePostedListener implements SlackMessagePostedListener{
 
         @Override
@@ -123,6 +123,17 @@ public final class Session {
                     }
                 }
             }
-        } 
+        }
+    }
+
+    public static String getApiKey(String keyName){
+      Properties properties = new Properties();
+      try {
+          properties.load(new FileInputStream("russbot.cfg"));
+      } catch (IOException ex) {
+          Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
+          System.out.println("Error reading russbot.cfg!");
+      }
+      return properties.getProperty(keyName).toString();
     }
 }
