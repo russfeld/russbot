@@ -5,10 +5,8 @@
  */
 package russbot.plugins;
 
-import java.io.FileInputStream;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Properties;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -44,21 +42,10 @@ public class Wolfram implements Plugin {
         return commands;
     }
 
-    private String getAppId(){
-      Properties properties = new Properties();
-      try {
-          properties.load(new FileInputStream("russbot.cfg"));
-      } catch (Exception ex) {
-          System.out.println("Could not read Wolfram Alpha App ID!");
-      }
-      return properties.getProperty("wolframAppId").toString();
-    }
-
     @Override
     public void messagePosted(String message, String channel) {
-      String appID = getAppId();
-      String search = "Error: failed to get search terms.";
       if(message.toLowerCase().startsWith("!wolfram ")){
+        String appId = Session.getApiKey("wolfram");
         String key = message.substring(9);
         String encoded = "";
         try {
@@ -68,7 +55,7 @@ public class Wolfram implements Plugin {
         }
         try {
           DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-          Document doc = db.parse(new URL("http://api.wolframalpha.com/v2/query?appid="+appID+"&input="+encoded+"&format=plaintext").openStream());
+          Document doc = db.parse(new URL("http://api.wolframalpha.com/v2/query?appid="+appId+"&input="+encoded+"&format=plaintext").openStream());
           String interpretation = doc.getElementsByTagName("pod").item(0).getTextContent();
           String result = doc.getElementsByTagName("pod").item(1).getTextContent();
           Session.getInstance().sendMessage(interpretation.trim() + "\n" + result.trim(), channel);
