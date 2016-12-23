@@ -33,8 +33,8 @@ public class LMGTFY implements Plugin {
     @Override
     public String[] getCommands(){
         String[] commands = {
-            "!lmgtfy [string] - Get a link to Google something.",
-            "!lmgtfye [string] - Get a link to Google something and explain how to use the internet."
+            "!lmgtfy <string> - Get a link to Google something.",
+            "!lmgtfye <string> - Get a link to Google something and explain how to use the internet."
         };
         return commands;
     }
