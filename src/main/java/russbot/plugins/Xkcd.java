@@ -7,10 +7,10 @@ package russbot.plugins;
 
 import java.util.Random;
 import java.util.Scanner;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.InputStream;
+import java.net.URL;
 
 import russbot.Session;
 
@@ -19,8 +19,6 @@ import russbot.Session;
  * @author V-FEXrt (Ashley Coleman)
  */
 public class Xkcd implements Plugin {
-    // TODO: xkcd xxxx -> post specific xkcd
-    // TODO: xkcd new -> post most recent xkcd -> Maybe post new ones as they appear?
     private Random rand = new Random();
 
     @Override
