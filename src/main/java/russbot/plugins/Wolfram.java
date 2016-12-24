@@ -5,13 +5,14 @@
  */
 package russbot.plugins;
 
-import java.io.FileInputStream;
-import java.net.URL;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import java.io.StringReader;
 import java.net.URLEncoder;
-import java.util.Properties;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import russbot.Session;
 
 /**
@@ -44,21 +45,10 @@ public class Wolfram implements Plugin {
         return commands;
     }
 
-    private String getAppId(){
-      Properties properties = new Properties();
-      try {
-          properties.load(new FileInputStream("russbot.cfg"));
-      } catch (Exception ex) {
-          System.out.println("Could not read Wolfram Alpha App ID!");
-      }
-      return properties.getProperty("wolframAppId").toString();
-    }
-
     @Override
     public void messagePosted(String message, String channel) {
-      String appID = getAppId();
-      String search = "Error: failed to get search terms.";
       if(message.toLowerCase().startsWith("!wolfram ")){
+        String appId = Session.getApiKey("wolfram");
         String key = message.substring(9);
         String encoded = "";
         try {
@@ -67,8 +57,10 @@ public class Wolfram implements Plugin {
           System.out.println("Error, could not encode search terms.\n" + ex);
         }
         try {
+          HttpResponse<String> data = Unirest.get("http://api.wolframalpha.com/v2/query?appid="+appId+"&input="+encoded+"&format=plaintext").asString();
           DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-          Document doc = db.parse(new URL("http://api.wolframalpha.com/v2/query?appid="+appID+"&input="+encoded+"&format=plaintext").openStream());
+          InputSource is = new InputSource(new StringReader(data.getBody()));
+          Document doc = db.parse(is);
           String interpretation = doc.getElementsByTagName("pod").item(0).getTextContent();
           String result = doc.getElementsByTagName("pod").item(1).getTextContent();
           Session.getInstance().sendMessage(interpretation.trim() + "\n" + result.trim(), channel);
