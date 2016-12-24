@@ -73,7 +73,7 @@ public class Xkcd implements Plugin {
         try {
             return Integer.parseInt(maxID);
         } catch(NumberFormatException e){
-            return 1776; // This is the current max - 12-23/16 -AC
+            return 1776; // This is the current max - 12/23/16 - AC
         }
     }
 
