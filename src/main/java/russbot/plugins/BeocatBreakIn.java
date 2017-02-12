@@ -65,11 +65,12 @@ public class BeocatBreakIn implements Plugin {
               .header("game-name", gameName)
               .asJson();
               JsonNode body = response.getBody();
+              String intro = body.getObject().getString("intro");
               String msg = body.getObject().getString("user-response");
               int game_id = body.getObject().getInt("game-id");
 
               game = new BeocatGame(command, game_id);
-              Session.getInstance().sendMessage(msg, channel);
+              Session.getInstance().sendMessage(intro + "\n\n" + msg, channel);
 
             } catch (Exception ex){
                Session.getInstance().sendMessage("Opps! There was an error with the Beocat Break-In API.", channel);
