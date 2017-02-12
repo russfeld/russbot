@@ -12,7 +12,7 @@ Some of the plugins of russbot include:
 * `!rss` - Reads and posts from RSS feeds
 * `!lmgtfy` - Let me Google that for you
 * `!wolfram` - Wolfram Alpha Search
-* `Beocat Break In` - Text Based RPG Game
+* `!beocat` - Beocat Break In, a text Based RPG Game
 
 
 ---
