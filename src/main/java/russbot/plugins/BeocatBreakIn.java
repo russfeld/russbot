@@ -77,106 +77,6 @@ public class BeocatBreakIn implements Plugin {
                 Session.getInstance().sendMessage("Opps! There was an error with the Beocat Break-In API.", channel);
             }
 
-        } else if (message.startsWith("!beocat go")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat look")) {
-
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat examine")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat take")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat drop")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat kill")) { //test from here
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat wait")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat wear")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat use")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat help")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat inventory")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat save")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat load")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
-        } else if (message.toLowerCase().startsWith("!beocat reset")) {
-
-            headers.put("game-name", game.getName());
-            headers.put("user-request", command);
-            String result = PostRequest(PLAY_URL, headers);
-
-            Session.getInstance().sendMessage(result, channel);
         } else if (message.toLowerCase().startsWith("!beocat end")) {
 
             try {
@@ -191,6 +91,13 @@ public class BeocatBreakIn implements Plugin {
             } catch (Exception ex) {
                 Session.getInstance().sendMessage("Opps! There was an error with the Beocat Break-In API.", channel);
             }
+        } else {
+
+          headers.put("game-name", game.getName());
+          headers.put("user-request", command);
+          String result = PostRequest(PLAY_URL, headers);
+
+          Session.getInstance().sendMessage(result, channel);
         }
     }
 
