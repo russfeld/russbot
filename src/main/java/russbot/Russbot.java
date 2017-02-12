@@ -31,12 +31,12 @@ import russbot.plugins.Plugin;
  * @author russfeld
  */
 public class Russbot {
-    
+
     public Russbot(){
         loadPlugins();
         connect();
     }
-    
+
     public void loadPlugins(){
         //http://stackoverflow.com/questions/12730463/how-do-i-call-a-constructor-from-a-class-loaded-at-runtime-java
         //http://stackoverflow.com/questions/11016092/how-to-load-classes-at-runtime-from-a-folder-or-jar
@@ -49,7 +49,7 @@ public class Russbot {
             loadFromFile(file);
         }
     }
-    
+
     private void loadFromJar(File file){
         try {
             URL url = null;
@@ -80,7 +80,7 @@ public class Russbot {
             System.exit(7);
         }
     }
-    
+
     private void loadFromFile(File file){
         URL url = null;
         try {
@@ -88,7 +88,7 @@ public class Russbot {
         } catch (MalformedURLException ex) {
             Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
             System.exit(4);
-        }  
+        }
         URL[] urls = new URL[]{url};
         ClassLoader cl = new URLClassLoader(urls);
 
@@ -111,11 +111,11 @@ public class Russbot {
             }
         }
     }
-    
+
     public void connect(){
         Session.getInstance().connect();
     }
-    
+
     public static void main(String[] args){
         new Russbot();
     }
@@ -124,19 +124,19 @@ public class Russbot {
      * @param args the command line arguments
      */
     public static void main_old(String[] args) throws Exception{
-            
+
     final SlackSession session = SlackSessionFactory.
       createWebSocketSlackSession("xoxb-10601098338-IGe2ygA8ptboghDoAL0KEMmu");
-    
+
     session.addMessagePostedListener(new SlackMessagePostedListener()
     {
         @Override
         public void onEvent(SlackMessagePosted event, SlackSession session)
         {
-            
+
         }
     });
-    
+
 
 
     while (true)
@@ -144,5 +144,5 @@ public class Russbot {
       Thread.sleep(1000);
     }
    }
-    
+
 }
