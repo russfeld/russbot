@@ -8,14 +8,7 @@ package russbot.plugins;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import russbot.Session;
-import java.io.StringReader;
-import java.net.URLEncoder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
 import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.request.HttpRequestWithBody;
 import org.json.JSONObject;
 
 /**
@@ -24,16 +17,16 @@ import org.json.JSONObject;
  */
 public class BeocatBreakIn implements Plugin {
 
-    BeocatGame game;
+    BeocatGame game = null;
 
-    final static String BEGIN_URL = "https://testing.atodd.io/api/begin";
-    final static String PLAY_URL  = "https://testing.atodd.io/api/play";
-    final static String END_URL   = "https://testing.atodd.io/api/end";
+    private final String BEGIN_URL = "https://testing.atodd.io/api/begin";
+    private final String PLAY_URL  = "https://testing.atodd.io/api/play";
+    private final String END_URL   = "https://testing.atodd.io/api/end";
 
 
     @Override
     public String getRegexPattern() {
-        return "![Bb]eocat start .*|![Bb]eocat go .*|![Bb]eocat look .*|![Bb]eocat examine .*|![Bb]eocat take .*|![Bb]eocat drop .*|![Bb]eocat kill!|![Bb]eocat wait|![Bb]eocat wear .*|![Bb]eocat use .*|![Bb]eocat help|![Bb]eocat inventory|![Bb]eocat save|![Bb]eocat load|![Bb]eocat reset|![Bb]eocat quit";
+        return "![Bb]eocat start .*|![Bb]eocat go .*|![Bb]eocat look .*|![Bb]eocat examine .*|![Bb]eocat take .*|![Bb]eocat drop .*|![Bb]eocat kill!|![Bb]eocat wait|![Bb]eocat wear .*|![Bb]eocat use .*|![Bb]eocat help|![Bb]eocat inventory|![Bb]eocat save|![Bb]eocat load|![Bb]eocat reset|![Bb]eocat end";
     }
 
     @Override
@@ -51,7 +44,7 @@ public class BeocatBreakIn implements Plugin {
     public String[] getCommands(){
         String[] commands = {
             "!beocat start <gameName> - Start a new Beocat Break-In game.",
-            "!beocat quit - Quits the game when you are finished playing."
+            "!beocat end - Quits the game when you are finished playing."
         };
         return commands;
     }
@@ -59,123 +52,191 @@ public class BeocatBreakIn implements Plugin {
     @Override
     public void messagePosted(String message, String channel) {
 
-        String val = message.toLowerCase().substring(8);
+        String command     = message.toLowerCase().substring(8);
+        JSONObject headers = new JSONObject();
+
+
         if(message.toLowerCase().startsWith("!beocat start")){
 
-            String request = val.substring(6);
-            BeocatGame game = new BeocatGame(request);
+            String gameName = command.substring(6);
 
-            JSONObject headers = new JSONObject();
-            headers.put("game-name", game.getName());
-            headers.put("user-request", request);
+            try {
+              HttpResponse<JsonNode> response = Unirest.post(BEGIN_URL)
+              .header("game-name", gameName)
+              .asJson();
+              JsonNode body = response.getBody();
+              String msg = body.getObject().getString("user-response");
+              int game_id = body.getObject().getInt("game-id");
 
+              game = new BeocatGame(command, game_id);
+              Session.getInstance().sendMessage(msg, channel);
 
+            } catch (Exception ex){
+               Session.getInstance().sendMessage("Opps! There was an error with the Beocat Break-In API.", channel);
+            }
 
-            String result = PostRequest(BEGIN_URL, headers);
-            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.startsWith("!beocat go")) {
 
-            String command = val.substring(3);
-            Session.getInstance().sendMessage("Moved " + command + ".", channel);
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat look")) {
 
-            String command = val.substring(5);
-            Session.getInstance().sendMessage("Looked at " + command + ".", channel);
+
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat examine")) {
 
-            String command = val.substring(8);
-            Session.getInstance().sendMessage("You examine the " + command + ".", channel);
+
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat take")) {
 
-            String command = val.substring(5);
-            Session.getInstance().sendMessage("You take the " + command + ".", channel);
+
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat drop")) {
 
-            String command = val.substring(5);
-            Session.getInstance().sendMessage("You drop the " + command + ".", channel);
+
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat kill")) { //test from here
 
-            Session.getInstance().sendMessage("You have died.", channel);
+
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat wait")) {
 
-            Session.getInstance().sendMessage("You are waiting around.", channel);
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat wear")) {
 
-            String command = val.substring(5);
-            Session.getInstance().sendMessage("You put on the " + command + ".", channel);
+
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat use")) {
 
-            String[] items = val.substring(4).split(" ");
-            Session.getInstance().sendMessage("You use " + items[0] + " on " + items[1] + ".", channel);
+
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat help")) {
 
-            Session.getInstance().sendMessage(HelpMessage(), channel);
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat inventory")) {
 
-            Session.getInstance().sendMessage("Your inventory contains: " + ".", channel);
+            //String command = "";
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat save")) {
 
-            int savesLeft = 0;
-            Session.getInstance().sendMessage("You have saved the game. You have " + savesLeft + " saves remaining.", channel);
+
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat load")) {
 
-            Session.getInstance().sendMessage("You have loaded your game save.", channel);
+            //String command = "";
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
+
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.toLowerCase().startsWith("!beocat reset")) {
 
             String name = game.getName();
-            game = new BeocatGame(name);
-            Session.getInstance().sendMessage("You have reset the game!", channel);
-          }
-          else if(message.toLowerCase().startsWith("!beocat quit")) {
+            int game_id = game.getId();
+            //String command = "";
+            headers.put("game-name", game.getName());
+            headers.put("user-request", command);
+            String result = PostRequest(PLAY_URL, headers);
 
-            game = null;
-            Session.getInstance().sendMessage("You have quit the game! Thanks for playing.", channel);
-          }
-    }
+            game = new BeocatGame(name, game_id);
 
-    public String HelpMessage() {
-      //api request for commands
-      return "";
+            Session.getInstance().sendMessage(result, channel);
+          }
+          else if(message.toLowerCase().startsWith("!beocat end")) {
+
+            try {
+              HttpResponse<JsonNode> response = Unirest.post(END_URL)
+              .header("game-id", Integer.toString(game.getId()))
+              .asJson();
+              JsonNode body = response.getBody();
+              String msg = body.getObject().getString("user-response");
+              Session.getInstance().sendMessage(msg, channel);
+              game = null;
+
+            } catch (Exception ex){
+               Session.getInstance().sendMessage("Opps! There was an error with the Beocat Break-In API.", channel);
+            }
+
+          }
     }
 
 
     public String PostRequest(String url, JSONObject headers) {
-      String key = "game-name:test";
-      String encoded = "";
-      try {
-        encoded = URLEncoder.encode(key, "UTF-8");
-      } catch (Exception ex){
-        System.out.println("Error, could not encode search terms.\n" + ex);
-      }
       try {
         HttpResponse<JsonNode> response = Unirest.post(url)
         .header("game-name", headers.getString("game-name"))
         .header("user-request", headers.getString("user-request"))
         .asJson();
         JsonNode body = response.getBody();
-        //String content = body.get("game-name").textValue();
-        String msg = body.getObject().getString("game-name");
+        String msg = body.getObject().getString("user-response");
         return msg;
 
       } catch (Exception ex){
 
-        return "There was an error with the Beocat Break-In API.";
+        return "Opps! There was an error with the Beocat Break-In API.";
       }
-
     }
 
 
@@ -183,14 +244,21 @@ public class BeocatBreakIn implements Plugin {
     private class BeocatGame {
 
       private String _name;
+      private int _id;
 
-      public BeocatGame(String name) {
+      public BeocatGame(String name, int id) {
         _name = name;
+        _id = id;
       }
 
       public String getName() {
        return _name;
-    }
+      }
+
+      public int getId() {
+        return _id;
+      }
+
 
     }
 
