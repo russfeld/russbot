@@ -16,6 +16,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.request.HttpRequestWithBody;
+import org.json.JSONObject;
 
 /**
  *
@@ -24,6 +25,11 @@ import com.mashape.unirest.request.HttpRequestWithBody;
 public class BeocatBreakIn implements Plugin {
 
     BeocatGame game;
+
+    final static String BEGIN_URL = "https://testing.atodd.io/api/begin";
+    final static String PLAY_URL  = "https://testing.atodd.io/api/play";
+    final static String END_URL   = "https://testing.atodd.io/api/end";
+
 
     @Override
     public String getRegexPattern() {
@@ -45,7 +51,7 @@ public class BeocatBreakIn implements Plugin {
     public String[] getCommands(){
         String[] commands = {
             "!beocat start <gameName> - Start a new Beocat Break-In game.",
-            "!beocat help - List the commands for the game."
+            "!beocat quit - Quits the game when you are finished playing."
         };
         return commands;
     }
@@ -55,10 +61,18 @@ public class BeocatBreakIn implements Plugin {
 
         String val = message.toLowerCase().substring(8);
         if(message.toLowerCase().startsWith("!beocat start")){
-            String test = PostRequest();
-            String command = val.substring(6);
-            game = new BeocatGame(command);
-            Session.getInstance().sendMessage(test, channel);
+
+            String request = val.substring(6);
+            BeocatGame game = new BeocatGame(request);
+
+            JSONObject headers = new JSONObject();
+            headers.put("game-name", game.getName());
+            headers.put("user-request", request);
+
+
+
+            String result = PostRequest(BEGIN_URL, headers);
+            Session.getInstance().sendMessage(result, channel);
           }
           else if(message.startsWith("!beocat go")) {
 
@@ -139,7 +153,7 @@ public class BeocatBreakIn implements Plugin {
     }
 
 
-    public String PostRequest() {
+    public String PostRequest(String url, JSONObject headers) {
       String key = "game-name:test";
       String encoded = "";
       try {
@@ -148,7 +162,10 @@ public class BeocatBreakIn implements Plugin {
         System.out.println("Error, could not encode search terms.\n" + ex);
       }
       try {
-        HttpResponse<JsonNode> response = Unirest.post("https://testing.atodd.io/api/begin").header("game-name", "test").asJson();
+        HttpResponse<JsonNode> response = Unirest.post(url)
+        .header("game-name", headers.getString("game-name"))
+        .header("user-request", headers.getString("user-request"))
+        .asJson();
         JsonNode body = response.getBody();
         //String content = body.get("game-name").textValue();
         String msg = body.getObject().getString("game-name");
