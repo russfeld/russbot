@@ -32,7 +32,8 @@ public class BeocatBreakIn implements Plugin {
     @Override
     public String[] getChannels() {
         String[] channels = {
-            "test"
+            "test",
+            "Beocat-Break-In"
         };
         return channels;
     }
