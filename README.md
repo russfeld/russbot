@@ -5,7 +5,7 @@ A Slack bot for KSU CIS Slack Channel. It is maintained by students and faculty 
 
 ---
 
-## Code Example
+## Examples
 
 Some of the plugins of russbot include:
 * `!xkcd` - Posts a random xkcd comic
