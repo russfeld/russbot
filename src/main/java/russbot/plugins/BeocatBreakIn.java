@@ -23,10 +23,9 @@ public class BeocatBreakIn implements Plugin {
     private final String PLAY_URL  = "https://testing.atodd.io/api/play";
     private final String END_URL   = "https://testing.atodd.io/api/end";
 
-
     @Override
     public String getRegexPattern() {
-        return "![Bb]eocat start .*|![Bb]eocat go .*|![Bb]eocat look .*|![Bb]eocat examine .*|![Bb]eocat take .*|![Bb]eocat drop .*|![Bb]eocat kill!|![Bb]eocat wait|![Bb]eocat wear .*|![Bb]eocat use .*|![Bb]eocat help|![Bb]eocat inventory|![Bb]eocat save|![Bb]eocat load|![Bb]eocat reset|![Bb]eocat end";
+        return "![Bb]eocat start .*|![Bb]eocat move .*|![Bb]eocat go .*|![Bb]eocat look .*|![Bb]eocat examine .*|![Bb]eocat take .*|![Bb]eocat drop .*|![Bb]eocat kill!|![Bb]eocat wait|![Bb]eocat wear .*|![Bb]eocat use .*|![Bb]eocat help|![Bb]eocat inventory|![Bb]eocat save|![Bb]eocat load|![Bb]eocat reset|![Bb]eocat end";
     }
 
     @Override
@@ -56,57 +55,36 @@ public class BeocatBreakIn implements Plugin {
     public void messagePosted(String message, String channel) {
 
         String command = message.toLowerCase().substring(8);
-        JSONObject headers = new JSONObject();
 
         if (message.toLowerCase().startsWith("!beocat start")) {
 
             String gameName = command.substring(6);
+            String msg      = BeginRequest(BEGIN_URL, gameName);
 
-            try {
-                HttpResponse < JsonNode > response = Unirest.post(BEGIN_URL)
-                    .header("game-name", gameName)
-                    .asJson();
-                JsonNode body = response.getBody();
-                String intro  = body.getObject().getString("intro");
-                String msg    = body.getObject().getString("user-response");
-                int game_id   = body.getObject().getInt("game-id");
-                game          = new BeocatGame(command, game_id);
-
-                Session.getInstance().sendMessage(intro + "\n\n" + msg, channel);
-
-            } catch (Exception ex) {
-                Session.getInstance().sendMessage("Opps! There was an error with the Beocat Break-In API.", channel);
-            }
+            Session.getInstance().sendMessage(msg, channel);
 
         } else if (message.toLowerCase().startsWith("!beocat end")) {
 
-            try {
-                HttpResponse < JsonNode > response = Unirest.post(END_URL)
-                    .header("game-id", Integer.toString(game.getId()))
-                    .asJson();
-                JsonNode body = response.getBody();
-                String msg    = body.getObject().getString("user-response");
-                Session.getInstance().sendMessage(msg, channel);
-                game = null;
+            String msg = EndRequest(END_URL, game.getId());
 
-            } catch (Exception ex) {
-                Session.getInstance().sendMessage("Opps! There was an error with the Beocat Break-In API.", channel);
-            }
+            Session.getInstance().sendMessage(msg, channel);
+
         } else {
 
-          headers.put("game-name", game.getName());
+          JSONObject headers = new JSONObject();
+          headers.put("game-id", Integer.toString(game.getId()));
           headers.put("user-request", command);
-          String result = PostRequest(PLAY_URL, headers);
+          String msg = PlayRequest(PLAY_URL, headers);
 
-          Session.getInstance().sendMessage(result, channel);
+          Session.getInstance().sendMessage(msg, channel);
         }
     }
 
 
-    public String PostRequest(String url, JSONObject headers) {
+    public String PlayRequest(String url, JSONObject headers) {
         try {
             HttpResponse < JsonNode > response = Unirest.post(url)
-                .header("game-name", headers.getString("game-name"))
+                .header("game-id", headers.getString("game-id"))
                 .header("user-request", headers.getString("user-request"))
                 .asJson();
             JsonNode body = response.getBody();
@@ -114,7 +92,41 @@ public class BeocatBreakIn implements Plugin {
             return msg;
 
         } catch (Exception ex) {
-            return "Opps! There was an error with the Beocat Break-In API.";
+            return "Oops! There was an error with the Beocat Break-In API.";
+        }
+    }
+
+
+    public String EndRequest(String url, int gameId) {
+      try {
+          HttpResponse < JsonNode > response = Unirest.post(END_URL)
+              .header("game-id", Integer.toString(gameId))
+              .asJson();
+          JsonNode body = response.getBody();
+          String msg    = body.getObject().getString("user-response");
+          game          = null;
+
+          return msg;
+        } catch (Exception ex) {
+            return "Oops! There was an error with the Beocat Break-In API.";
+        }
+    }
+
+
+    public String BeginRequest(String url, String gameName) {
+      try {
+          HttpResponse < JsonNode > response = Unirest.post(BEGIN_URL)
+              .header("game-name", gameName)
+              .asJson();
+          JsonNode body = response.getBody();
+          String intro  = body.getObject().getString("intro");
+          String msg    = body.getObject().getString("user-response");
+          int game_id   = body.getObject().getInt("game-id");
+          game          = new BeocatGame(gameName, game_id);
+
+          return intro + "\n\n" + msg;
+        } catch (Exception ex) {
+            return "Oops! There was an error with the Beocat Break-In API.";
         }
     }
 
