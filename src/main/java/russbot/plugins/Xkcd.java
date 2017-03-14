@@ -69,8 +69,8 @@ public class Xkcd implements Plugin {
     }
 
     private int getMaxComicID(){
-        String resp = executeGet("http://xkcd.com/");
-        String permaLink = executeRegex("Permanent link to this comic: http:\\/\\/xkcd.com\\/\\d+\\/", resp);
+        String resp = executeGet("https://xkcd.com/");
+        String permaLink = executeRegex("Permanent link to this comic: https:\\/\\/xkcd.com\\/\\d+\\/", resp);
         String maxID = executeRegex("\\d+", permaLink);
 
         try {
@@ -101,12 +101,11 @@ public class Xkcd implements Plugin {
     }
 
     private String buildURL(int id){
-        return "http://xkcd.com/" + Integer.toString(id);
+        return "https://xkcd.com/" + Integer.toString(id);
     }
 
     private String executeGet(String targetURL) {
         String response = "";
-
         try {
             HttpResponse<String> data = Unirest.get(targetURL).asString();
             InputStream is = data.getRawBody();
