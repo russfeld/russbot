@@ -11,6 +11,9 @@ import russbot.Session;
 import com.mashape.unirest.http.JsonNode;
 import org.json.JSONObject;
 import org.json.JSONArray;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
 
 
 /**
@@ -24,7 +27,7 @@ public class CSWeekly implements Plugin {
 
     @Override
     public String getRegexPattern() {
-        return "![Nn]ews .*|![Nn]ews";
+        return "![Nn]ews .*|![Nn]ews|![Nn]ews help";
     }
 
     @Override
@@ -44,7 +47,8 @@ public class CSWeekly implements Plugin {
     public String[] getCommands() {
         String[] commands = {
             "!news - Returns a list of Computer Science events for the week.",
-            "!beocat <event> - Returns a specific event and it's details."
+            "!news help - Returns a specific event and it's details.",
+            "!news <day of week> - Returns the news for a specific day of the upcoming week."
         };
         return commands;
     }
@@ -52,20 +56,21 @@ public class CSWeekly implements Plugin {
     @Override
     public void messagePosted(String message, String channel) {
 
-        if (message.toLowerCase().startsWith("!news ")) {
+        if (message.toLowerCase().startsWith("!news help")) {
 
-            //specific
-            //String msg = BeginRequest(BEGIN_URL, gameName);
+
+            String msg = "This is the help message";
+            Session.getInstance().sendMessage(msg, channel);
+
+        } else if (message.toLowerCase().startsWith("!news ")) {
+
             String msg = message.substring(6);
+            //todo
             Session.getInstance().sendMessage(msg, channel);
 
         } else if(message.toLowerCase().startsWith("!news")) {
 
-            //general
-            String msg = "All the news";
-
-            msg = allNewsRequest(WEBSITE_URL);
-
+            String msg = allNewsRequest(WEBSITE_URL);
             Session.getInstance().sendMessage(msg, channel);
         }
     }
@@ -87,26 +92,66 @@ public class CSWeekly implements Plugin {
             JSONArray articles = object.getJSONArray("articles");
 
             String message = "";
+            String monday = "";
+            String tuesday = "";
+            String wednesday = "";
+            String thursday = "";
+            String friday = "";
+
+
+
 
             for(int x = 0; x < articles.length(); x ++) {
-                JSONObject article = articles.getJSONObject(x);
-                String date = article.getString("date");
-                String title = article.getString("title");
-                String location = article.getString("location");
-                String entry = title + " - " + location + " - " + date + "\n";
 
-                message += entry;
+                JSONObject article = articles.getJSONObject(x);
+                String date = "test", location;
+                String title = article.getString("title");
+
+                if(article.get("date").toString() == "null") {
+                    date = "N/A";
+                } else {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    try
+                    {
+                        Date d = simpleDateFormat.parse(article.getString(("date")));
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(d);
+                        if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+                            date = "Monday";
+                        }
+                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
+                            date = "Tuesday";
+                        }
+                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+                            date = "Wednesday";
+                        }
+                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
+                            date = "Thursday";
+                        }
+                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+                            date = "Friday";
+                        }
+
+                        //date = d.toString();
+                    }
+                    catch (Exception ex)
+                    {
+                        System.out.println("Exception "+ex.toString());
+                    }
+                }
+                if(article.get("location").toString() == "null") {
+                    location = "N/A";
+                } else {
+                    location = article.getString("location");
+                }
+                message +=  date + "\n" + "\t\u2022 " + title + " - " + location + "\n";
             }
 
-
             return message;
+
 
         } catch (Exception ex) {
             return ex.toString();
         }
-
     }
-
-
-
 }
