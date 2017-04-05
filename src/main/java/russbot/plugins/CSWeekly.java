@@ -22,7 +22,7 @@ import java.util.Calendar;
 public class CSWeekly implements Plugin {
 
     private final String WEBSITE_URL = "https://testing.atodd.io/newsletter-generator/public/";
-
+    //Map<int, List<String>> days = new HashMap<int, List<String>>();
 
     @Override
     public String getRegexPattern() {
@@ -74,6 +74,136 @@ public class CSWeekly implements Plugin {
         }
     }
 
+    /*public void AddArticle(int day, String article) {
+        List<String> list = days.get(day);
+        if (list == null) {
+            list = new List<String>();
+            days.put(key, list);
+        }
+        list.add(article);
+    }*/
+
+    public String BuildMessage(JSONArray articles) {
+        String message = "", monday = "", tuesday = "", wednesday = "", thursday = "", friday = "", saturday = "", sunday = "", other = "";
+
+
+
+        for(int x = 0; x < articles.length(); x ++) {
+
+            JSONObject article = articles.getJSONObject(x);
+            String date = "";
+            String location = "";
+            String link = "";
+            String title = "" + article.getString("title");
+
+
+
+            if(article.get("location").toString() == "null") {
+                location += "N/A";
+            } else {
+                location = article.getString("location");
+            }
+            if(!article.isNull("link")) {
+
+                link = article.getString("link");
+            }
+
+            if(article.get("date").toString() == "null") {
+                if(other == "") {
+                    other += "*Other Announcements*\n";
+                }
+                other += ">\u2022 " + title + "\n";
+            } else {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try
+                {
+                    Date d = simpleDateFormat.parse(article.getString(("date")));
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(d);
+
+                    int hour = cal.get(Calendar.HOUR_OF_DAY);
+                    int min =  cal.get(Calendar.MINUTE);
+                    String time =  hour%12 + ":" + min + ((min==0) ? "0" : "") + " " + ((hour>=12) ? "PM" : "AM");
+
+
+                    String web = "";
+                    if(link != "") {
+                        web = " - <" + link + "| read more>";
+                    }
+
+                    if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+
+                        if(monday == "") {
+                            monday += "*Monday*\n";
+                        }
+
+
+
+                        monday += ">\u2022 " + title+  " @ "  + time + " - " + location + web + "\n";
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
+                        if(tuesday == "") {
+                            tuesday += "*Tuesday*\n";
+                        }
+
+
+
+                        tuesday += ">\u2022 " + title +  " @ " + time + " - " + location +  web + "\n";
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
+                        if(wednesday == "") {
+                            wednesday += "*Wednesday*\n";
+                        }
+
+
+                        wednesday += ">\u2022 " + title +  " @ " + time + " - " + location + web + "\n";
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
+                        if(thursday == "") {
+                            thursday += "*Thursday*\n";
+                        }
+
+
+
+                        thursday += ">\u2022 " + title +  " @ " + time + " - " + location + web + "\n";
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
+                        if(friday == "") {
+                            friday += "*Friday*\n";
+                        }
+
+
+                        friday += ">\u2022 " + title +  " @ " + time + " - " + location + web + "\n";
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                        if(saturday == "") {
+                            saturday += "*Saturday*\n";
+                        }
+                        saturday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
+                    }
+                    else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                        if(sunday == "") {
+                            sunday += "*Sunday*\n";
+                        }
+
+
+                        sunday += ">\u2022 " + title +  " @ " + time + " - " + location + web + "\n";
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    System.out.println("Exception "+ex.toString());
+                }
+            }
+        }
+
+        message = monday + tuesday + wednesday + thursday + friday + saturday + sunday + other;
+        message += "\n" + "To learn more about these events check out the online newsletter here! " + WEBSITE_URL;
+
+        return message;
+    }
+
 
     public String allNewsRequest(String url) {
         try {
@@ -83,104 +213,7 @@ public class CSWeekly implements Plugin {
             JSONObject object = new JSONObject(body);
             JSONArray articles = object.getJSONArray("articles");
 
-            String message = "", monday = "", tuesday = "", wednesday = "", thursday = "", friday = "", saturday = "", sunday = "", other = "";
-
-
-
-            for(int x = 0; x < articles.length(); x ++) {
-
-                JSONObject article = articles.getJSONObject(x);
-                String date = "";
-                String location = "";
-                String title = "" + article.getString("title");
-
-
-                if(article.get("location").toString() == "null") {
-                    location += "N/A";
-                } else {
-                    location = article.getString("location");
-                }
-
-                if(article.get("date").toString() == "null") {
-                    if(other == "") {
-                        other += "*Other Announcements*\n";
-                    }
-                    other += ">\u2022 " + title + "\n";
-                } else {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    try
-                    {
-                        Date d = simpleDateFormat.parse(article.getString(("date")));
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(d);
-
-                        int hour = cal.get(Calendar.HOUR_OF_DAY);
-                        int min =  cal.get(Calendar.MINUTE);
-                        String time =  hour%12 + ":" + min + ((min==0) ? "0" : "") + " " + ((hour>=12) ? "PM" : "AM");
-
-
-
-
-
-                        if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
-
-                            if(monday == "") {
-                                monday += "*Monday*\n";
-                            }
-
-
-                            monday += ">\u2022 " + title+  " @ "  + time + " - " + location + "\n";
-                        }
-                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
-                            if(tuesday == "") {
-                                tuesday += "*Tuesday*\n";
-                            }
-
-                            tuesday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
-                        }
-                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-                            if(wednesday == "") {
-                                wednesday += "*Wednesday*\n";
-                            }
-                            wednesday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
-                        }
-                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
-                            if(thursday == "") {
-                                thursday += "*Thursday*\n";
-                            }
-                            thursday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
-                        }
-                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                            if(friday == "") {
-                                friday += "*Friday*\n";
-                            }
-                            friday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
-                        }
-                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-                            if(saturday == "") {
-                                saturday += "*Saturday*\n";
-                            }
-                            saturday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
-                        }
-                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                            if(sunday == "") {
-                                sunday += "*Sunday*\n";
-                            }
-                            sunday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
-                        }
-
-                    }
-                    catch (Exception ex)
-                    {
-                        System.out.println("Exception "+ex.toString());
-                    }
-                }
-            }
-
-            message = monday + tuesday + wednesday + thursday + friday + saturday + sunday + other;
-            message += "\n" + "To learn more about these events check out the online newsletter here! " + WEBSITE_URL;
-            return message;
-
+            return BuildMessage(articles);
 
         } catch (Exception ex) {
             return ex.toString();
