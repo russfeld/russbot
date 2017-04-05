@@ -8,7 +8,6 @@ package russbot.plugins;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import russbot.Session;
-import com.mashape.unirest.http.JsonNode;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import java.text.SimpleDateFormat;
@@ -76,13 +75,6 @@ public class CSWeekly implements Plugin {
     }
 
 
-    public String formatNews(HttpResponse<String> news) {
-        String formatted = "format";
-
-
-        return formatted;
-    }
-
     public String allNewsRequest(String url) {
         try {
             HttpResponse<String> response = Unirest.get("https://testing.atodd.io/newsletter-generator/public/api/articles").asString();
@@ -91,24 +83,29 @@ public class CSWeekly implements Plugin {
             JSONObject object = new JSONObject(body);
             JSONArray articles = object.getJSONArray("articles");
 
-            String message = "";
-            String monday = "";
-            String tuesday = "";
-            String wednesday = "";
-            String thursday = "";
-            String friday = "";
-
+            String message = "", monday = "", tuesday = "", wednesday = "", thursday = "", friday = "", saturday = "", sunday = "", other = "";
 
 
 
             for(int x = 0; x < articles.length(); x ++) {
 
                 JSONObject article = articles.getJSONObject(x);
-                String date = "test", location;
-                String title = article.getString("title");
+                String date = "";
+                String location = "";
+                String title = "" + article.getString("title");
+
+
+                if(article.get("location").toString() == "null") {
+                    location += "N/A";
+                } else {
+                    location = article.getString("location");
+                }
 
                 if(article.get("date").toString() == "null") {
-                    date = "N/A";
+                    if(other == "") {
+                        other += "*Other Announcements*\n";
+                    }
+                    other += ">\u2022 " + title + "\n";
                 } else {
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     try
@@ -116,37 +113,72 @@ public class CSWeekly implements Plugin {
                         Date d = simpleDateFormat.parse(article.getString(("date")));
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(d);
+
+                        int hour = cal.get(Calendar.HOUR_OF_DAY);
+                        int min =  cal.get(Calendar.MINUTE);
+                        String time =  hour%12 + ":" + min + ((min==0) ? "0" : "") + " " + ((hour>=12) ? "PM" : "AM");
+
+
+
+
+
                         if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
-                            date = "Monday";
+
+                            if(monday == "") {
+                                monday += "*Monday*\n";
+                            }
+
+
+                            monday += ">\u2022 " + title+  " @ "  + time + " - " + location + "\n";
                         }
                         else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.TUESDAY) {
-                            date = "Tuesday";
+                            if(tuesday == "") {
+                                tuesday += "*Tuesday*\n";
+                            }
+
+                            tuesday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
                         }
                         else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.WEDNESDAY) {
-                            date = "Wednesday";
+                            if(wednesday == "") {
+                                wednesday += "*Wednesday*\n";
+                            }
+                            wednesday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
                         }
                         else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.THURSDAY) {
-                            date = "Thursday";
+                            if(thursday == "") {
+                                thursday += "*Thursday*\n";
+                            }
+                            thursday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
                         }
                         else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                            date = "Friday";
+                            if(friday == "") {
+                                friday += "*Friday*\n";
+                            }
+                            friday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
+                        }
+                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                            if(saturday == "") {
+                                saturday += "*Saturday*\n";
+                            }
+                            saturday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
+                        }
+                        else if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                            if(sunday == "") {
+                                sunday += "*Sunday*\n";
+                            }
+                            sunday += ">\u2022 " + title +  " @ " + time + " - " + location + "\n";
                         }
 
-                        //date = d.toString();
                     }
                     catch (Exception ex)
                     {
                         System.out.println("Exception "+ex.toString());
                     }
                 }
-                if(article.get("location").toString() == "null") {
-                    location = "N/A";
-                } else {
-                    location = article.getString("location");
-                }
-                message +=  date + "\n" + "\t\u2022 " + title + " - " + location + "\n";
             }
 
+            message = monday + tuesday + wednesday + thursday + friday + saturday + sunday + other;
+            message += "\n" + "To learn more about these events check out the online newsletter here! " + WEBSITE_URL;
             return message;
 
 
