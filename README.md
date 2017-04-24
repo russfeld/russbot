@@ -19,13 +19,13 @@ Some of the plugins of russbot include:
 
 ## Installation
 
-####Notes
+#### Notes
 * You will need to add a bot to your slack channel and get an API key prior to starting the setup.
 * russbot uses gradle to build and run the bot.
 
 ---
 
-####Instructions
+#### Instructions
 
 1. To get started copy the config file `russbot.cfg.example` to `russbot.cfg`
 
