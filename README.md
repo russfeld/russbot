@@ -31,6 +31,8 @@ Some of the plugins of russbot include:
 
 2. Inside the config file it should have a spot for a **Slack** token, as well as a **Wolfram** token.
 
+3. Create a **data** folder in the root of the project. `mkdir data`
+
 3. Once you enter those go ahead and build with gradle as normal. `./gradlew build`
 
 4. After you successfully build it you can try running it. `./gradlew run`
