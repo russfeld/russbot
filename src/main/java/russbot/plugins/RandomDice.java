@@ -8,6 +8,7 @@ package russbot.plugins;
 import russbot.Session;
 import java.util.Random;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -122,7 +123,8 @@ public class RandomDice implements Plugin {
 		
 		//append total and send message back to Slack
 		output.append("= ").append(total);
-		System.out.println(output.toString());
+		//System.out.println(output.toString());
+        Session.getInstance().sendMessage(output.toString(), channel);
     }
 	
 	/**

@@ -6,6 +6,8 @@
 package russbot.plugins;
 
 import russbot.Session;
+import russbot.plugins.Plugin;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Calendar;
