@@ -120,29 +120,4 @@ public class Russbot {
         new Russbot();
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main_old(String[] args) throws Exception{
-
-    final SlackSession session = SlackSessionFactory.
-      createWebSocketSlackSession("xoxb-10601098338-IGe2ygA8ptboghDoAL0KEMmu");
-
-    session.addMessagePostedListener(new SlackMessagePostedListener()
-    {
-        @Override
-        public void onEvent(SlackMessagePosted event, SlackSession session)
-        {
-
-        }
-    });
-
-
-
-    while (true)
-    {
-      Thread.sleep(1000);
-    }
-   }
-
 }

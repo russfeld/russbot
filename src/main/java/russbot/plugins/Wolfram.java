@@ -19,7 +19,7 @@ import russbot.Session;
  *
  * @author at0dd
  */
-public class Wolfram implements Plugin {
+public class Wolfram extends Plugin {
 
     @Override
     public String getRegexPattern() {

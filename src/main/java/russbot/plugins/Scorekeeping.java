@@ -28,7 +28,7 @@ import russbot.Storage;
  *
  * @author russfeld
  */
-public class Scorekeeping implements Plugin{
+public class Scorekeeping extends Plugin{
     private AbstractMap<String, Integer> data;
 
     public Scorekeeping(){

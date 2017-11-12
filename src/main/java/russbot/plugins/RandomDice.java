@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  *
  * @author russfeld
  */
-public class RandomDice implements Plugin {
+public class RandomDice extends Plugin {
     
     Random random;
     

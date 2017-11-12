@@ -12,7 +12,7 @@ import russbot.Session;
  *
  * @author at0dd
  */
-public class LMGTFY implements Plugin {
+public class LMGTFY extends Plugin {
 
     @Override
     public String getRegexPattern() {

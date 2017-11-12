@@ -19,19 +19,20 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Gradle: org.glassfish.tyrus.bundles:tyrus-standalone-client:1.8.3" level="project" />
     <orderEntry type="library" name="Gradle: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-simple:1.7.7" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpclient:4.4" level="project" />
     <orderEntry type="library" name="Gradle: com.google.guava:guava:18.0" level="project" />
-    <orderEntry type="library" name="Gradle: com.ullink.slack:simpleslackapi:0.4.6" level="project" />
+    <orderEntry type="library" name="Gradle: com.ullink.slack:simpleslackapi:1.2.0" level="project" />
     <orderEntry type="library" name="Gradle: com.rometools:rome-fetcher:1.5.1" level="project" />
     <orderEntry type="library" name="Gradle: org.mnode.ical4j:ical4j:2.0-beta1" level="project" />
     <orderEntry type="library" name="Gradle: com.h2database:h2:1.4.189" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.10" level="project" />
-    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.4" level="project" />
     <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.9" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpmime:4.5.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.threeten:threetenbp:1.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: javax.websocket:javax.websocket-api:1.1" level="project" />
     <orderEntry type="library" name="Gradle: com.rometools:rome:1.5.1" level="project" />
     <orderEntry type="library" name="Gradle: commons-httpclient:commons-httpclient:3.1" level="project" />
     <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.3.2" level="project" />
@@ -41,7 +42,10 @@
     <orderEntry type="library" name="Gradle: com.rometools:rome-utils:1.5.1" level="project" />
     <orderEntry type="library" name="Gradle: org.jdom:jdom:2.0.2" level="project" />
     <orderEntry type="library" name="Gradle: org.osgi:org.osgi.core:4.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpclient:4.5.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.glassfish.tyrus.bundles:tyrus-standalone-client:1.13.1" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.10" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.httpcomponents:httpcore:4.4.6" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="russbot_main" />
 </module>

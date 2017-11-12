@@ -16,7 +16,7 @@ import russbot.Session;
  *
  * @author russfeld
  */
-public class DefaultRSS implements Plugin, RSSPlugin{
+public class DefaultRSS extends Plugin implements RSSPlugin{
     HashMap<String, RSSFeed> feeds;
     String[] channels = {"test"};
     

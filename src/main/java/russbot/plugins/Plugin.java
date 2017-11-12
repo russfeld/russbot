@@ -11,10 +11,14 @@ import java.util.regex.Pattern;
  *
  * @author russfeld
  */
-public interface Plugin {
+public abstract class Plugin {
     public abstract String getRegexPattern();
     public abstract String[] getChannels();
     public abstract String getInfo();
     public abstract String[] getCommands();
-    public abstract void messagePosted(String message, String channel);
+    public void messagePosted(String message, String channel){}
+    public void messagePosted(String message, String channel, String username, String userid){
+        messagePosted(message, channel);
+    }
+    public void privateMessagePosted(String message, String channel, String username, String userid){}
 }

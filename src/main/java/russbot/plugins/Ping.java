@@ -11,7 +11,7 @@ import russbot.Session;
  *
  * @author at0dd
  */
-public class Ping implements Plugin {
+public class Ping extends Plugin {
 
     @Override
     public String getRegexPattern() {

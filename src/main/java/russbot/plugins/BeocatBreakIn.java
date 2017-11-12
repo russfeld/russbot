@@ -15,7 +15,7 @@ import org.json.JSONObject;
  *
  * @author keisenb
  */
-public class BeocatBreakIn implements Plugin {
+public class BeocatBreakIn extends Plugin {
 
     BeocatGame game = null;
 

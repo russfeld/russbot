@@ -21,7 +21,7 @@ import russbot.Session;
  *
  * @author V-FEXrt (Ashley Coleman)
  */
-public class Xkcd implements Plugin {
+public class Xkcd extends Plugin {
     private Random rand = new Random();
 
     @Override

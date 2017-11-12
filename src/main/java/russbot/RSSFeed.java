@@ -90,7 +90,7 @@ public class RSSFeed implements Runnable{
         }
         if(entry.getDescription() != null){
             text += entry.getDescription().getValue() + "\n";
-            slacka.setFallback(slacka.fallback + " - " + entry.getDescription().getValue());
+            slacka.setFallback(slacka.getFallback() + " - " + entry.getDescription().getValue());
         }
         if(entry.getLink() != null){
             slacka.setTitleLink(entry.getLink());
