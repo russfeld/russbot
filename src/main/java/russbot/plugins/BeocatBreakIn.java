@@ -32,7 +32,7 @@ public class BeocatBreakIn implements Plugin {
     public String[] getChannels() {
         String[] channels = {
             "test",
-            "Beocat-Break-In"
+            "beocat-break-in"
         };
         return channels;
     }
