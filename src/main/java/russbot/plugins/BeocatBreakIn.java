@@ -19,9 +19,9 @@ public class BeocatBreakIn implements Plugin {
 
     BeocatGame game = null;
 
-    private final String BEGIN_URL = "https://testing.atodd.io/api/begin";
-    private final String PLAY_URL  = "https://testing.atodd.io/api/play";
-    private final String END_URL   = "https://testing.atodd.io/api/end";
+    private final String BEGIN_URL = "https://beocat.keisenb.io/api/begin";
+    private final String PLAY_URL  = "https://beocat.keisenb.io/api/play";
+    private final String END_URL   = "https://beocat.keisenb.io/api/end";
 
     @Override
     public String getRegexPattern() {
@@ -39,7 +39,7 @@ public class BeocatBreakIn implements Plugin {
 
     @Override
     public String getInfo() {
-        return "Beocat Break-In";
+        return "Beocat Break-In (beta)";
     }
 
     @Override
