@@ -12,6 +12,9 @@ import java.util.regex.Pattern;
 import java.io.InputStream;
 import java.net.URL;
 
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.HttpResponse;
+
 import russbot.Session;
 
 /**
@@ -66,14 +69,14 @@ public class Xkcd implements Plugin {
     }
 
     private int getMaxComicID(){
-        String resp = executeGet("http://xkcd.com/");
-        String permaLink = executeRegex("Permanent link to this comic: http:\\/\\/xkcd.com\\/\\d+\\/", resp);
+        String resp = executeGet("https://xkcd.com/");
+        String permaLink = executeRegex("Permanent link to this comic: https:\\/\\/xkcd.com\\/\\d+\\/", resp);
         String maxID = executeRegex("\\d+", permaLink);
 
         try {
             return Integer.parseInt(maxID);
         } catch(NumberFormatException e){
-            return 1776; // This is the current max - 12/23/16 - AC
+            return 1777; // This is the current max - 12/25/16 - AC
         }
     }
 
@@ -98,16 +101,14 @@ public class Xkcd implements Plugin {
     }
 
     private String buildURL(int id){
-        return "http://xkcd.com/" + Integer.toString(id);
+        return "https://xkcd.com/" + Integer.toString(id);
     }
 
-    //from here: http://stackoverflow.com/questions/1359689/how-to-send-http-request-in-java
     private String executeGet(String targetURL) {
         String response = "";
-
         try {
-            URL url = new URL(targetURL);
-            InputStream is = url.openStream();
+            HttpResponse<String> data = Unirest.get(targetURL).asString();
+            InputStream is = data.getRawBody();
             response = convertStreamToString(is);
             is.close();
         } catch(Exception e) {
