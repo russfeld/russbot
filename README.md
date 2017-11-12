@@ -40,20 +40,6 @@ Some of the plugins of russbot include:
 
 ---
 
-## Contributors
-
-Russell Feldhausen - https://www.github.com/russfeld
-
-Alex Todd - https://www.github.com/at0dd
-
-Kyle Eisenbarger - https://www.github.com/keisenb
-
-Jake Ehrlich - https://www.github.com/JakeEhrlich
-
-Ashley Coleman - https://github.com/V-FEXrt
-
----
-
 ## License
 
 The MIT License (MIT)
