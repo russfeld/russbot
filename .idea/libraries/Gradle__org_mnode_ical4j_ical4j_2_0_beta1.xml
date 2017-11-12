@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.mnode.ical4j:ical4j:2.0-beta1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mnode.ical4j/ical4j/2.0-beta1/581790c9197bd947147d5bffaef54df018c4e588/ical4j-2.0-beta1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mnode.ical4j/ical4j/2.0-beta1/367377233c25dfad823871ba30a414d0b72a38d0/ical4j-2.0-beta1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

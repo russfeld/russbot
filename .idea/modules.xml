@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/russbot.iml" filepath="$PROJECT_DIR$/russbot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/russbot_main.iml" filepath="$PROJECT_DIR$/.idea/modules/russbot_main.iml" group="russbot" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/russbot_test.iml" filepath="$PROJECT_DIR$/.idea/modules/russbot_test.iml" group="russbot" />
+    </modules>
+  </component>
+</project>
