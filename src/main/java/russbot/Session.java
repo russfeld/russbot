@@ -20,6 +20,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import com.ullink.slack.simpleslackapi.replies.SlackChannelReply;
 import russbot.plugins.Plugin;
@@ -145,7 +146,7 @@ public final class Session {
         @Override
         public void onEvent(SlackMessagePosted event, SlackSession ss) {
             String channel = event.getChannel().getName();
-            String message = event.getMessageContent();
+            String message = StringEscapeUtils.unescapeHtml4(event.getMessageContent());
             String username = event.getSender().getUserName();
             String userid = event.getSender().getId();
             if(message.equals("!help") || message.equals("!commands") || message.equals("!about")){
