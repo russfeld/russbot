@@ -106,8 +106,8 @@ public class RandomDice extends Plugin {
 	@Override
 	public void messagePosted(String message, String channel) {
 		//fix HTML-ified characters
-		message = message.replaceAll("&lt", "<");
-		message = message.replaceAll("&gt", ">");
+		//message = message.replaceAll("&lt", "<");
+		//message = message.replaceAll("&gt", ">");
 		
 		//                             |<- roll  ->||<-------- explode  -------->||<-- drop/keep  -->|
 		Pattern p = Pattern.compile("(([\\d]*d[\\d]+(!!?(([<|>][\\d]+)|([\\d]*)))?([d|k][l|h]?[\\d]+)?)|([+\\-])|([\\d]+)){1}");
