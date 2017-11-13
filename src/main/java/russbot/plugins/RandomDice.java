@@ -87,13 +87,14 @@ public class RandomDice extends Plugin {
 	public String[] getCommands(){
 		String[] commands = {
 			"`!r <x>d<y>                ` - Roll `x` dice with `y` sides each",
-			"`!r dy                     ` - If `<x>` is omitted, default value is 1",
+			"`!r d<y>                   ` - If `<x>` is omitted, default value is 1",
 			"`!r <x>d<y>d|k[l|h]<z>     ` - Roll `x` dice with `y` sides and `d`rop/`k`eep the `l`owest/`h`ighest `z` rolls",
-			"`!r <x>d<y>d|k             ` - A `d` or `k` by itself will default to drop lowest and keep highest, respectively",
+			"`!r <x>d<y>d|k<z>          ` - A `d` or `k` by itself will default to drop lowest and keep highest, respectively",
 			"`!r <x>d<y>!<z>            ` - Explode: Roll `x` dice with `y` sides, rolling again each time `z` is rolled (including rerolls)",
-			"`!r <x>d<y>!               ` - If `<z>` is omitted, default value is `y`",
-			"`!r <x>d<y>![[<|>]<z>]     ` - With a comparator, rerolls also occur when roll is equal to `z`",
-			"`!r <x>d<y>!![[<|>]<z>]    ` - Same as explode, but adds rerolls to the original roll",
+			"`!r <x>d<y>!               ` - If `<z>` is omitted, then by default dice will explode on their highest value",
+			"`!r <x>d<y>![[<|>]<z>]     ` - Explode on rolls less than or equal to `z` or greater than or equal to `z`",
+			"`!r <x>d<y>[!<z>][d|k<w>]  ` - Explode and drop/keep may be combined, but drop/keep must come last",
+			"`!r <x>d<y>!![[<|>]<z>]    ` - Compounding explode: same as explode, but adds rerolls to the original roll",
 			"`!r <set> [+|- <set> [...]]` - Add or subtract multiple sets of dice or constants"
 		};
 		return commands;
@@ -104,6 +105,10 @@ public class RandomDice extends Plugin {
 	 */
 	@Override
 	public void messagePosted(String message, String channel) {
+		//fix HTML-ified characters
+		message = message.replaceAll("&lt", "<");
+		message = message.replaceAll("&gt", ">");
+		
 		//                             |<- roll  ->||<-------- explode  -------->||<-- drop/keep  -->|
 		Pattern p = Pattern.compile("(([\\d]*d[\\d]+(!!?(([<|>][\\d]+)|([\\d]*)))?([d|k][l|h]?[\\d]+)?)|([+\\-])|([\\d]+)){1}");
 		Matcher m = p.matcher(message);
@@ -134,8 +139,7 @@ public class RandomDice extends Plugin {
 				//otherwise it is a constant, so just add/subtract it
 				else {
 					int num = Integer.parseInt(token);
-					if (add) total += num;
-					else total -= num;
+					total += add ? num : -num;
 					output.append(num).append(" ");
 				}
 			}
