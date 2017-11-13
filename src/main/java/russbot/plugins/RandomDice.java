@@ -7,82 +7,105 @@ package russbot.plugins;
 
 import russbot.Session;
 import java.util.Random;
-import java.util.regex.Matcher;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  *
  * @author russfeld
  */
 public class RandomDice extends Plugin {
-    
-    Random random;
-    
-    public RandomDice(){
-        random = new Random();
-    }
-
+	
+	Random random;
+	private static final int MAX_DICE = 20;
+	private static final int MAX_DIE_SIZE = 1000;
+	private static final int MAX_EXPLOSIONS = 100;
+	
+	public RandomDice(){
+		random = new Random();
+	}
+	
 	/**
 	 * @author hbgoddard
 	 */
-    @Override
-    public String getRegexPattern() {
-		/* KEY:
+	@Override
+	public static String getRegexPattern() {
+		/**
+		 * KEY:
 		 * 
-		 * ^!r(oll)?			line starts with !r or !roll
+		 * ^!r(oll)?
+		 * 		line starts with !r or !roll
 		 * 
-		 * [\d]*d[\d]+			standard dice format; <x>d<y> = roll x dice with y sides
-		 * 						<x> is optional and defaults to 1 if omitted
+		 * [\d]*d[\d]+
+		 * 		standard dice format; <x>d<y> = roll x dice with y sides
+		 * 		<x> is optional and defaults to 1 if omitted
 		 * 
-		 * ([d|k][l|h]?[\d]+)?	discard certain dice in the preceding roll:
-		 * 						dl<z> = drop lowest z results
-		 * 						dh<z> = drop highest z results
-		 * 						kl<z> = keep lowest z results
-		 * 						kh<z> = keep highest z results
-		 * 						d<z> and k<z> are shorthand for dl<z> and kh<z>, respectively
-		 * 						this group can be omitted entirely
+		 * [\d]+
+		 * 		include a constant term instead of a roll
 		 * 
-		 *  ?[+\-] ?			addition or subtraction (with optional spaces)
+		 * (!!?(([<|>][\d]+)|([\d]*)))?
+		 * 		explode certain dice in the preceding roll;
+		 * 		<x>d<y>!<z>  = explode; roll an additional die any time z is rolled in the preceding set
+		 * 		<x>d<y>!!<z> = compound; same as explode, but add additional rolls to the triggering roll
+		 * 		if <z> is omitted, default value is y
+		 * 		if <z> is preceded by > or <, the range for the triggering roll is extended to be >= z or <= z, respectively
+		 * 		if a comparator is present, <z> cannot be omitted
 		 * 
-		 * [\d]+				include a constant term instead of a roll
+		 * ([d|k][l|h]?[\d]+)?
+		 * 		drop or keep certain dice in the preceding roll:
+		 * 		dl<z> = drop lowest z results
+		 * 		dh<z> = drop highest z results
+		 * 		kl<z> = keep lowest z results
+		 * 		kh<z> = keep highest z results
+		 * 		d<z> and k<z> are shorthand for dl<z> and kh<z>, respectively
+		 * 
+		 *  ?[+\-] ?
+		 * 		addition or subtraction (with optional spaces)
 		 * 
 		 */
-		return "^!r(oll)? ([\\d]*d[\\d]+([d|k][l|h]?[\\d]+)?|[\\d]+)" +
-			   "( ?[+\\-] ?([\\d]*d[\\d]+([d|k][l|h]?[\\d]+)?|[\\d]+))* *$";
+		return "^!r(oll)? (([\\d]*d[\\d]+(!!?(([<|>][\\d]+)|([\\d]*)))?([d|k][l|h]?[\\d]+)?)|([\\d]+))" +
+		       "( ?[+\\-] ?(([\\d]*d[\\d]+(!!?(([<|>][\\d]+)|([\\d]*)))?([d|k][l|h]?[\\d]+)?)|([\\d]+)))*\\s*$";
 		//don't you just love regular expressions?
-    }
-
-    @Override
-    public String[] getChannels() {
-        String[] channels = {"test"};
-        return channels;
-    }
-    
-    @Override
-    public String getInfo(){
-        return "for rolling random integers like dice";
-    }
+	}
+	
+	@Override
+	public String[] getChannels() {
+		String[] channels = {"test", "random"};
+		return channels;
+	}
+	
+	@Override
+	public String getInfo(){
+		return "for rolling random integers like dice";
+	}
     
 	/**
 	 * @author hbgoddard
 	 */
-    @Override
-    public String[] getCommands(){
-        String[] commands = {
-			"!r <x>d<y>                 - Roll x dice with y sides each",
-			"!r <x>d<y>[d|k[l|h]<z>]    - Roll x dice with y sides and drop/keep the lowest/highest z rolls",
-			"!r <set> [+|- <set> [...]] - Add or subtract multiple sets of dice or constants"
+	@Override
+	public String[] getCommands(){
+		String[] commands = {
+			"`!r <x>d<y>                ` - Roll `x` dice with `y` sides each",
+			"`                          ` - If `<x>` is omitted, default value is 1",
+			"`!r <x>d<y>d|k[l|h]<z>     ` - Roll `x` dice with `y` sides and `d`rop/`k`eep the `l`owest/`h`ighest `z` rolls",
+			"`                          ` - A `d` or `k` by itself will default to drop lowest and keep highest, respectively",
+			"`!r <x>d<y>![[<|>]<z>]     ` - Explode: Roll `x` dice with `y` sides, rolling again each time `z` is rolled (including rerolls)",
+			"`                          ` - If `<z>` is omitted, default value is `y`",
+			"`                          ` - With a comparator, rerolls also occur when roll is equal to `z`",
+			"`!r <x>d<y>!![[<|>]<z>]    ` - Same as explode, but adds rerolls to the original roll",
+			"`!r <set> [+|- <set> [...]]` - Add or subtract multiple sets of dice or constants"
 		};
-        return commands;
-    }
+		return commands;
+	}
 
 	/**
 	 * @author hbgoddard
 	 */
-    @Override
-    public void messagePosted(String message, String channel) {
-		
-		Pattern p = Pattern.compile("(([\\d]*d[\\d]+([d|k][l|h]?[\\d]+)*)|([+\\-])|([\\d]+)){1}");
+	@Override
+	public void messagePosted(String message, String channel) {
+		//                             |<- roll  ->||<-------- explode  -------->||<-- drop/keep  -->|
+		Pattern p = Pattern.compile("(([\\d]*d[\\d]+(!!?(([<|>][\\d]+)|([\\d]*)))?([d|k][l|h]?[\\d]+)?)|([+\\-])|([\\d]+)){1}");
 		Matcher m = p.matcher(message);
 		StringBuilder output = new StringBuilder("");
 		
@@ -96,7 +119,7 @@ public class RandomDice extends Plugin {
 				//if it is a dice fragment, send it to the roller
 				if (token.contains("d")) {
 					int retVal = rollDice(token, output, channel);
-					if (retVal == 0) return;
+					if (retVal == -1) return;
 					else total += add ? retVal : -retVal;
 				}
 				//if it is an operation, update the add flag
@@ -111,29 +134,34 @@ public class RandomDice extends Plugin {
 				//otherwise it is a constant, so just add/subtract it
 				else {
 					int num = Integer.parseInt(token);
-					total += add ? num : -num;
+					if (add) total += num;
+					else total -= num;
 					output.append(num).append(" ");
 				}
 			}
-			catch (NumberFormatException nfe) {
-				Session.getInstance().sendMessage("How did you get that weird number past my _glorious_ regex?! :rage:", channel);
+			catch (NumberFormatException e) {
+				Session.getInstance().sendMessage("/shrug I'm not quite sure how to interpret one of those numbers... ", channel);
+				return;
+			}
+			catch (Exception e) {
+				Session.getInstance().sendMessage("How did you get that past my _glorious_ regex?! :rage:\n" +
+												  "(hey @hbgoddard, something's broken)", channel);
 				return;
 			}
 		}
 		
 		//append total and send message back to Slack
 		output.append("= ").append(total);
-		//System.out.println(output.toString());
-        Session.getInstance().sendMessage(output.toString(), channel);
-    }
+		Session.getInstance().sendMessage(output.toString(), channel);
+	}
 	
 	/**
 	 * @author hbgoddard
 	 */
-	public int rollDice(String pattern, StringBuilder sb, String channel) {
+	private int rollDice(String pattern, StringBuilder sb, String channel) {
 		
-		int numDice, numSides, toDrop, result = 0;
-		boolean dropLowest = true;
+		int numDice, numSides, result = 0;
+		int end;
 		
 		//get number of dice to roll
 		if (pattern.charAt(0) == 'd') {
@@ -141,18 +169,127 @@ public class RandomDice extends Plugin {
 		}
 		else {
 			numDice = Integer.parseInt(pattern.substring(0, pattern.indexOf('d')));
-			if (numDice > 20 || numDice <= 0) {
-				Session.getInstance().sendMessage("I don't have that many dice!", channel);
-				return 0;
+			//make sure number of dice is reasonable
+			if (numDice > MAX_DICE || numDice <= 0) {
+				Session.getInstance().sendMessage("I can't roll " + numDice + " dice!", channel);
+				return -1;
 			}
 		}
 		
-		//remove portion <x>d to simplify further processing
+		//remove fragment <x>d to simplify further processing
 		pattern = pattern.substring(pattern.indexOf('d') + 1);
 		
-		//get size of the die and number of drops (if any)
+		//get size of the die
+		if (pattern.contains("!")) end = pattern.indexOf('!');
+		else if (pattern.contains("d")) end = pattern.indexOf('d');
+		else if (pattern.contains("k")) end = pattern.indexOf('k');
+		else end = pattern.length();
+		numSides = Integer.parseInt(pattern.substring(0, end));
+		//remove fragment <y> to simplify further processing
+		pattern = pattern.substring(end);
+		
+		//make sure numSides is reasonable
+		if (numSides > MAX_DIE_SIZE || numSides <= 0) {
+			Session.getInstance().sendMessage("I don't have any dice with " + numSides + " sides!", channel);
+			return -1;
+		}
+		
+		//roll the dice!
+		ArrayList<Integer> rolls = new ArrayList<Integer>(numDice);
+		for (int i = 0; i < numDice; i++) {
+			rolls.add(random.nextInt(numSides) + 1);
+		}
+		
+		//explode dice
+		ArrayList<Boolean> exploded = new ArrayList<Boolean>(numDice);
+		for (int i = 0; i < numDice; i++) {
+			exploded.add(false);
+		}
+		if (pattern.contains("!")) {
+			//find explosion values
+			int expVal, expGTE, expLTE;
+			boolean compound = false;
+			int start;
+			//get end index of value in pattern
+			if (pattern.contains("d")) end = pattern.indexOf('d');
+			else if (pattern.contains("k")) end = pattern.indexOf('k');
+			else end = pattern.length();
+			//get start index of value in pattern
+			start = 1;
+			//check if explosion is compounding
+			if (pattern.contains("!!")) {
+				start++;
+				compound = true;
+			}
+			//check for comparator
+			if (pattern.contains("<")) {
+				expVal = Integer.parseInt(pattern.substring(start + 1, end));
+				expGTE = 1;
+				expLTE = expVal;
+			}
+			else if (pattern.contains(">")) {
+				expVal = Integer.parseInt(pattern.substring(start + 1, end));
+				expGTE = expVal;
+				expLTE = numSides;
+			}
+			//if value is omitted, default to max roll on die
+			else if (start == end) {
+				expGTE = numSides;
+				expLTE = numSides;
+			}
+			//if value is present with no comparator, explode only on value
+			else {
+				expVal = Integer.parseInt(pattern.substring(start, end));
+				expGTE = expVal;
+				expLTE = expVal;
+			}
+			//remove explosion fragment to simplify further processing
+			pattern = pattern.substring(end);
+			
+			//make sure bounds are reasonable
+			if (expGTE <= 1 && expLTE >= numSides) {
+				Session.getInstance().sendMessage("Too many explosions!", channel);
+				return -1;
+			}
+			
+			//finally we get to blow things up
+			int newRoll;
+			int explodeCount;
+			int newDice = 0;
+			for (int i = 0; i < numDice; i++) {
+				//check if this is an exploding value
+				if (rolls.get(i) >= expGTE && rolls.get(i) <= expLTE) {
+					if (compound) {
+						exploded.set(i, true);
+						explodeCount = 0;
+						do {
+							newRoll = random.nextInt(numSides) + 1;
+							rolls.set(i, rolls.get(i) + newRoll);
+							explodeCount++;
+							if (explodeCount > MAX_EXPLOSIONS) {
+								Session.getInstance().sendMessage("Too many explosions!", channel);
+								return -1;
+							}
+						} while (newRoll >= expGTE && newRoll <= expLTE);
+					}
+					else {
+						rolls.add(i + 1, random.nextInt(numSides) + 1);
+						exploded.add(i + 1, true);
+						numDice++;
+						newDice++;
+					}
+				}
+				if (newDice > MAX_EXPLOSIONS) {
+					Session.getInstance().sendMessage("Too many explosions!", channel);
+					return -1;
+				}
+			}
+		}
+		
+		//get number of drops (if any)
+		int toDrop = 0;
+		boolean dropLowest = true;
 		if (pattern.contains("d")) {
-			numSides = Integer.parseInt(pattern.substring(0, pattern.indexOf('d')));
 			//drop lowest
 			if (pattern.contains("l")) {
 				dropLowest = true;
@@ -170,7 +307,6 @@ public class RandomDice extends Plugin {
 			}
 		}
 		else if (pattern.contains("k")) {
-			numSides = Integer.parseInt(pattern.substring(0, pattern.indexOf('k')));
 			//keep lowest
 			if (pattern.contains("l")) {
 				dropLowest = false;
@@ -190,35 +326,12 @@ public class RandomDice extends Plugin {
 			toDrop = numDice - toDrop;
 		}
 		else {
-			numSides = Integer.parseInt(pattern);
 			toDrop = 0;
-		}
-		
-		//make sure numSides is reasonable
-		if (numSides > 100000000 || numSides <= 0) {
-			Session.getInstance().sendMessage("I don't have any dice of that size!", channel);
-			return 0;
 		}
 		
 		//make sure toDrop is reasonable
 		if (toDrop < 0) toDrop = 0;
 		if (toDrop > numDice) toDrop = numDice;
-		
-		//handle most common case with less overhead
-		if (numDice == 1 && toDrop == 0) {
-			result = random.nextInt(numSides) + 1;
-			if (result == 1 || result == numSides) sb.append("*");
-			sb.append("`").append(result).append("`");
-			if (result == 1 || result == numSides) sb.append("*");
-			sb.append(" ");
-			return result;
-		}
-		
-		//roll the dice!
-		int[] rolls = new int[numDice];
-		for (int i = 0; i < numDice; i++) {
-			rolls[i] = random.nextInt(numSides) + 1;
-		}
 		
 		//find which dice to drop
 		boolean[] drop = new boolean[numDice];
@@ -227,13 +340,15 @@ public class RandomDice extends Plugin {
 			dropVal = dropLowest ? Integer.MAX_VALUE : Integer.MIN_VALUE;
 			dropIndex = -1;
 			for (int i = 0; i < numDice; i++) {
+				//skip if already dropped
 				if (drop[i]) continue;
-				if ((dropLowest && (rolls[i] < dropVal)) ||
-					(!dropLowest && (rolls[i] > dropVal))) {
-					dropVal = rolls[i];
+				if ((dropLowest && (rolls.get(i) < dropVal)) ||
+					(!dropLowest && (rolls.get(i) > dropVal))) {
+					dropVal = rolls.get(i);
 					dropIndex = i;
 				}
 			}
+			//mark min/max value as dropped
 			drop[dropIndex] = true;
 		}
 		
@@ -243,11 +358,17 @@ public class RandomDice extends Plugin {
 			//strikethrough for dropped die
 			if (drop[i]) sb.append("~");
 			//if not dropped, add to sum
-			else result += rolls[i];
+			else result += rolls.get(i);
 			//bold for min or max value
-			if (rolls[i] == 1 || rolls[i] == numSides) sb.append("*");
-			sb.append("`").append(rolls[i]).append("`");
-			if (rolls[i] == 1 || rolls[i] == numSides) sb.append("*");
+			if (rolls.get(i) == 1 || rolls.get(i) == numSides) sb.append("*");
+			//italicize for exploded value
+			if (exploded.get(i)) sb.append("_");
+			sb.append("`").append(rolls.get(i)).append("`");
+			//close italics
+			if (exploded.get(i)) sb.append("_");
+			//close bold
+			if (rolls.get(i) == 1 || rolls.get(i) == numSides) sb.append("*");
+			//close strikethrough
 			if (drop[i]) sb.append("~");
 			if (i < numDice - 1) sb.append(" + ");
 		}
