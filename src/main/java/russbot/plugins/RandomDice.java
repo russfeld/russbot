@@ -30,7 +30,7 @@ public class RandomDice extends Plugin {
 	 * @author hbgoddard
 	 */
 	@Override
-	public static String getRegexPattern() {
+	public String getRegexPattern() {
 		/**
 		 * KEY:
 		 * 
@@ -87,12 +87,12 @@ public class RandomDice extends Plugin {
 	public String[] getCommands(){
 		String[] commands = {
 			"`!r <x>d<y>                ` - Roll `x` dice with `y` sides each",
-			"`                          ` - If `<x>` is omitted, default value is 1",
+			"`!r dy                     ` - If `<x>` is omitted, default value is 1",
 			"`!r <x>d<y>d|k[l|h]<z>     ` - Roll `x` dice with `y` sides and `d`rop/`k`eep the `l`owest/`h`ighest `z` rolls",
-			"`                          ` - A `d` or `k` by itself will default to drop lowest and keep highest, respectively",
-			"`!r <x>d<y>![[<|>]<z>]     ` - Explode: Roll `x` dice with `y` sides, rolling again each time `z` is rolled (including rerolls)",
-			"`                          ` - If `<z>` is omitted, default value is `y`",
-			"`                          ` - With a comparator, rerolls also occur when roll is equal to `z`",
+			"`!r <x>d<y>d|k             ` - A `d` or `k` by itself will default to drop lowest and keep highest, respectively",
+			"`!r <x>d<y>!<z>            ` - Explode: Roll `x` dice with `y` sides, rolling again each time `z` is rolled (including rerolls)",
+			"`!r <x>d<y>!               ` - If `<z>` is omitted, default value is `y`",
+			"`!r <x>d<y>![[<|>]<z>]     ` - With a comparator, rerolls also occur when roll is equal to `z`",
 			"`!r <x>d<y>!![[<|>]<z>]    ` - Same as explode, but adds rerolls to the original roll",
 			"`!r <set> [+|- <set> [...]]` - Add or subtract multiple sets of dice or constants"
 		};
