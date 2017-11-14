@@ -102,6 +102,13 @@ public final class Session {
         return channel;
     }
 
+    public void unregisterPrivateChannel(String channel){
+        if(privateChannels.containsKey(channel)){
+            session.sendPrivateMessage("```Disconnecting from " + privateChannels.get(channel).getClass().getName() + "...```", channel);
+            privateChannels.remove(channel);
+        }
+    }
+
     public void sendMessage(String message, String channel){
         session.slacksession.sendMessage(session.slacksession.findChannelByName(channel), message, null);
     }

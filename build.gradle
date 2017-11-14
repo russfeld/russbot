@@ -3,8 +3,8 @@ apply plugin: 'application'
 
 mainClassName = "russbot.Russbot"
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 version = '0.01a'
 

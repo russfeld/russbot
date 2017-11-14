@@ -4,3 +4,4 @@ russbot.cfg
 build/*
 /.nb-gradle/
 data/*
+out/*
