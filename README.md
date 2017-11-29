@@ -28,17 +28,21 @@ Some of the plugins of russbot include:
 #### Instructions
 
 1. To get started copy the config file `russbot.cfg.example` to `russbot.cfg`
-
 2. Inside the config file it should have a spot for a **Slack** token, as well as a **Wolfram** token.
-
 3. Create a **data** folder in the root of the project. `mkdir data`
-
 3. Once you enter those go ahead and build with gradle as normal. `./gradlew build`
-
 4. After you successfully build it you can try running it. `./gradlew run`
 
 
 ---
+
+#### Testing
+
+Use `./gradlew run -q -PrunArgs="['-t']"` to run in test mode and interact with russbot via command-line.
+
+While in test mode:  
+`#<channel>` will switch channel  
+`@<user>` will switch user  
 
 ## License
 

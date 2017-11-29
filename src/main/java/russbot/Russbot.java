@@ -24,6 +24,8 @@ import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.apache.commons.cli.*;
 import russbot.plugins.Plugin;
 
 /**
@@ -32,9 +34,47 @@ import russbot.plugins.Plugin;
  */
 public class Russbot {
 
-    public Russbot(){
+    public Russbot(String [] args){
+        Options options = new Options();
+        HelpFormatter formatter = new HelpFormatter();
+
+        options.addOption(Option.builder("?")
+                .longOpt("help")
+                .desc("Print this help message")
+                .build());
+        options.addOption(Option.builder("t")
+                .longOpt("test")
+                .desc("Test russbot plugins on command line")
+                .build());
+
+        CommandLineParser clparser = new DefaultParser();
+        CommandLine line = null;
+        try {
+            line = clparser.parse(options, args);
+        } catch (ParseException e) {
+            System.err.println(e.getMessage());
+            formatter.printHelp("./gradlew run -PrunArgs=\"['opt1','opt2', ...]\"", options);
+            //e.printStackTrace();
+            System.exit(1);
+        }
+
+        //print help and exit
+        if (line.hasOption("?")) {
+            formatter.printHelp("./gradlew run -PrunArgs=\"['opt1','opt2', ...]\"", options);
+            System.exit(0);
+        }
+
+        boolean test = false;
+
+        Logger.getLogger(Session.class.getName()).log(Level.INFO, "To run with arguments: ./gradlew run -PrunArgs=\"['opt1','opt2', ...]\"");
+        Logger.getLogger(Session.class.getName()).log(Level.INFO, "To see usage: ./gradlew run -PrunArgs=\"['-?']\"");
+
+        if (line.hasOption("t")) {
+            test = true;
+        }
+
         loadPlugins();
-        connect();
+        connect(test);
     }
 
     public void loadPlugins(){
@@ -112,12 +152,12 @@ public class Russbot {
         }
     }
 
-    public void connect(){
-        Session.getInstance().connect();
+    public void connect(boolean test){
+        Session.getInstance().connect(test);
     }
 
     public static void main(String[] args){
-        new Russbot();
+        new Russbot(args);
     }
 
 }

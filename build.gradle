@@ -15,6 +15,13 @@ jar {
     }
 }
 
+run {
+    if (project.hasProperty('runArgs')) {
+        args Eval.me(runArgs)
+    }
+    standardInput = System.in
+}
+
 repositories {
     mavenCentral()
     jcenter()
@@ -30,7 +37,9 @@ dependencies {
     compile 'com.rometools:rome-fetcher:1.5.1'
     compile 'org.mnode.ical4j:ical4j:2.0-beta1'
     compile 'com.h2database:h2:1.4.189'
-    compile files('libs/unirest.jar')
+    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    compile group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.9'
+    //compile files('libs/unirest.jar')
 }
 
 uploadArchives {
