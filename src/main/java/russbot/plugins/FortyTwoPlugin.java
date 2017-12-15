@@ -20,7 +20,7 @@ public class FortyTwoPlugin extends Plugin {
 
     @Override
     public String[] getChannels() {
-        String[] channels = {"test"};
+        String[] channels = {"test", "random"};
         return channels;
     }
     

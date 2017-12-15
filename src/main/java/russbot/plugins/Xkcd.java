@@ -31,7 +31,7 @@ public class Xkcd extends Plugin {
 
     @Override
     public String[] getChannels() {
-        String[] channels = {"test"};
+        String[] channels = {"test", "random"};
         return channels;
     }
 
