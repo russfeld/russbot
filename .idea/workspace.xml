@@ -3,16 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ccf0e357-6e1e-4ef1-95b4-35bca78fa0d4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/BeocatBreakIn.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/BeocatBreakIn.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/DefaultRSS.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/DefaultRSS.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/DirectMessage.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/DirectMessage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/FortyTwoPlugin.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/FortyTwoPlugin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/LMGTFY.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/LMGTFY.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/Ping.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/Ping.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/ReggiesQuest.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/ReggiesQuest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/Scorekeeping.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/Scorekeeping.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/Wolfram.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/Wolfram.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/Xkcd.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/Xkcd.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/Session.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/Session.java" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -41,22 +32,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="BeocatBreakIn.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/russbot/plugins/BeocatBreakIn.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="35" column="19" lean-forward="false" selection-start-line="35" selection-start-column="19" selection-end-line="35" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="FortyTwoPlugin.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/russbot/plugins/FortyTwoPlugin.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
               <caret line="22" column="44" lean-forward="false" selection-start-line="22" selection-start-column="44" selection-end-line="22" selection-end-column="44" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Session.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/russbot/Session.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="212" column="96" lean-forward="false" selection-start-line="212" selection-start-column="96" selection-end-line="212" selection-end-column="96" />
+              <folding>
+                <element signature="e#5345#5346#0" expanded="true" />
+                <element signature="e#5396#5397#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -134,7 +128,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Xkcd.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Xkcd.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/russbot/plugins/Xkcd.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="374">
@@ -470,7 +464,6 @@
         <option value="$PROJECT_DIR$/src/main/java/russbot/plugins/RandomDice.java" />
         <option value="$PROJECT_DIR$/src/main/java/russbot/Russbot.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/src/main/java/russbot/Session.java" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/main/java/russbot/plugins/DefaultRSS.java" />
         <option value="$PROJECT_DIR$/src/main/java/russbot/plugins/DirectMessage.java" />
@@ -482,6 +475,7 @@
         <option value="$PROJECT_DIR$/src/main/java/russbot/plugins/Scorekeeping.java" />
         <option value="$PROJECT_DIR$/src/main/java/russbot/plugins/Wolfram.java" />
         <option value="$PROJECT_DIR$/src/main/java/russbot/plugins/Xkcd.java" />
+        <option value="$PROJECT_DIR$/src/main/java/russbot/Session.java" />
       </list>
     </option>
   </component>
@@ -912,12 +906,6 @@
           <folding>
             <element signature="e#5345#5346#0" expanded="true" />
             <element signature="e#5396#5397#0" expanded="true" />
-            <element signature="e#5937#5938#0" expanded="true" />
-            <element signature="e#5991#5992#0" expanded="true" />
-            <element signature="e#6504#6505#0" expanded="true" />
-            <element signature="e#6562#6563#0" expanded="true" />
-            <element signature="e#9976#9977#0" expanded="true" />
-            <element signature="e#10020#10021#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1043,23 +1031,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/russbot/Session.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1819">
-          <caret line="125" column="32" lean-forward="false" selection-start-line="125" selection-start-column="32" selection-end-line="125" selection-end-column="32" />
-          <folding>
-            <element signature="e#5345#5346#0" expanded="true" />
-            <element signature="e#5396#5397#0" expanded="true" />
-            <element signature="e#5937#5938#0" expanded="true" />
-            <element signature="e#5991#5992#0" expanded="true" />
-            <element signature="e#6504#6505#0" expanded="true" />
-            <element signature="e#6562#6563#0" expanded="true" />
-            <element signature="e#9976#9977#0" expanded="true" />
-            <element signature="e#10020#10021#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -1181,6 +1152,17 @@
         <state relative-caret-position="374">
           <caret line="38" column="23" lean-forward="false" selection-start-line="38" selection-start-column="23" selection-end-line="38" selection-end-column="23" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/russbot/Session.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="212" column="96" lean-forward="false" selection-start-line="212" selection-start-column="96" selection-end-line="212" selection-end-column="96" />
+          <folding>
+            <element signature="e#5345#5346#0" expanded="true" />
+            <element signature="e#5396#5397#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

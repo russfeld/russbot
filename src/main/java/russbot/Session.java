@@ -210,7 +210,8 @@ public final class Session {
                     }
                 }
                 output +="\nvisit https://github.com/russfeld/russbot for more";
-                Session.getInstance().sendMessage(output, channel);
+                Session.getInstance().sendMessage("I sent you a DM with some helpful information", channel);
+                Session.getInstance().sendDirectMessage(output, username);
             }else{
                 //debugging only
                 //System.out.println(channel + ":" + message + ":" + username + ":" + userid);
