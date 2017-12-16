@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ccf0e357-6e1e-4ef1-95b4-35bca78fa0d4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/DirectMessage.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/DirectMessage.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/FortyTwoPlugin.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/FortyTwoPlugin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/LMGTFY.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/LMGTFY.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/Ping.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/Ping.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/RandomDice.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/RandomDice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/ReggiesQuest.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/ReggiesQuest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/Scorekeeping.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/Scorekeeping.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/Wolfram.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/Wolfram.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/russbot/plugins/Xkcd.java" afterPath="$PROJECT_DIR$/src/main/java/russbot/plugins/Xkcd.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -40,16 +31,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="FortyTwoPlugin.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/russbot/plugins/FortyTwoPlugin.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="22" column="56" lean-forward="false" selection-start-line="22" selection-start-column="56" selection-end-line="22" selection-end-column="56" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="LMGTFY.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/russbot/plugins/LMGTFY.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -123,12 +104,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DefaultRSS.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="DefaultRSS.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/russbot/plugins/DefaultRSS.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
+            <state relative-caret-position="-159">
               <caret line="25" column="10" lean-forward="false" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="10" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="521">
+                <caret line="37" column="0" lean-forward="true" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+                <folding />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -1043,23 +1037,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="629">
-            <caret line="37" column="0" lean-forward="true" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
-            <folding />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/russbot.cfg.example">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -1153,9 +1130,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/russbot/plugins/DefaultRSS.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
+        <state relative-caret-position="-159">
           <caret line="25" column="10" lean-forward="false" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="10" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="521">
+            <caret line="37" column="0" lean-forward="true" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+            <folding />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
