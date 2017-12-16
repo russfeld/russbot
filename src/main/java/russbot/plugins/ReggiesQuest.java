@@ -20,7 +20,7 @@ public class ReggiesQuest extends Plugin {
 
     @Override
     public String[] getChannels() {
-        String[] channels = {"test", "random"};
+        String[] channels = {"test"};
         return channels;
     }
 
@@ -99,6 +99,12 @@ public class ReggiesQuest extends Plugin {
                     break;
                 case "yes":
                     state = doAction(output, state, input[0], null);
+                    step = true;
+                    break;
+                case "!help":
+                case "!commands":
+                case "!about":
+                    state = doAction(output, state, "help", null);
                     step = true;
                     break;
                 default:

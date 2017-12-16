@@ -48,7 +48,7 @@ public class Wolfram extends Plugin {
     @Override
     public void messagePosted(String message, String channel) {
       if(message.toLowerCase().startsWith("!wolfram ")){
-        String appId = Session.getApiKey("wolfram");
+        String appId = Session.getProperty("wolfram");
         String key = message.substring(9);
         String encoded = "";
         try {

@@ -1,2 +1,4 @@
-token:
-wolfram:
+token:abcdefghijklmnop
+wolfram:qrstuvwxyz1234
+channels:test,random
+test:false

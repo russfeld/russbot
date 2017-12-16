@@ -23,7 +23,7 @@ public class DefaultRSS extends Plugin implements RSSPlugin{
     public DefaultRSS(){
         feeds = new HashMap<>();
         feeds.put("russbot", new RSSFeed("https://github.com/russfeld/russbot/commits/master.atom", this, "russbot"));
-        feeds.put("acm", new RSSFeed("https://orgsync.com/calendar/org/rss/3432595/44766b586c577c776c208b95b16cf32ff6e00484?org=86744", this, "acm"));
+        //feeds.put("acm", new RSSFeed("https://orgsync.com/calendar/org/rss/3432595/44766b586c577c776c208b95b16cf32ff6e00484?org=86744", this, "acm"));
     }
 
     @Override
