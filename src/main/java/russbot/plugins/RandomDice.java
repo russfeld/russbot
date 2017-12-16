@@ -71,7 +71,7 @@ public class RandomDice extends Plugin {
 	
 	@Override
 	public String[] getChannels() {
-		String[] channels = {"test", "random"};
+		String[] channels = {"test", "random", "general"};
 		return channels;
 	}
 	
