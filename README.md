@@ -1,3 +1,9 @@
+# Update March 2021
+
+This repository has been archived and is no longer maintained. Russbot had a good life on Slack, and may live again on Discord in the future.
+
+---
+
 # russbot
 
 
